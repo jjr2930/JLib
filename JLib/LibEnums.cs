@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 namespace JLib
 {
@@ -42,5 +41,12 @@ namespace JLib
         WiiU = 30,
         tvOS = 31
     }
+
+    public enum DefaultEvent
+    {
+        None = 0,
+        ChangeScene = 1,
+    }
+
 
 }

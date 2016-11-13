@@ -6,3 +6,5 @@ c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.dll
 c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.pdb
 C:\Users\ME\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.csprojResolveAssemblyReference.cache
 C:\Users\ME\Documents\Visual Studio 2015\Projects\JLib\bin\Release\UnityEditor.dll
+C:\Users\ME\documents\visual studio 2015\Projects\DLL\JLib.dll
+C:\Users\ME\documents\visual studio 2015\Projects\DLL\JLib.pdb

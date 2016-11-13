@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace JLib
@@ -14,6 +13,8 @@ namespace JLib
             TableLoader.Initialize();
             GlobalEventQueue.Initialize();
             JResources.Initialize();
+
+            GlobalEventQueue.RegisterListener(DefaultEvent.ChangeScene, ListenSceneChange);
         }
 
         public static JPlatformType Platform

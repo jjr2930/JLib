@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JLib</RootNamespace>
     <AssemblyName>JLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\DLL\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -59,6 +60,7 @@
     <Compile Include="GlobalEventQueue.cs" />
     <Compile Include="JMonoBehaviour.cs" />
     <Compile Include="JResources.cs" />
+    <Compile Include="JTime.cs" />
     <Compile Include="LibEnums.cs" />
     <Compile Include="LocalizeTextForUGUI.cs" />
     <Compile Include="LocalizeTable.cs" />
@@ -67,6 +69,10 @@
     <Compile Include="Singletone.cs" />
     <Compile Include="TableLoader.cs" />
     <Compile Include="TablePathTable.cs" />
+    <Compile Include="Tween.cs" />
+    <Compile Include="TweenLocalPosition.cs" />
+    <Compile Include="TweenManager.cs" />
+    <Compile Include="TweenScale.cs" />
     <Compile Include="Vector3Extension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

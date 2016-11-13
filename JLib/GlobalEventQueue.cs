@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 //using UnityEngine;
 namespace JLib
 {
@@ -19,7 +19,7 @@ namespace JLib
         /// 이벤트 넣기
         /// </summary>
         /// <param name="param"></param>
-        static void QueueEvent(GlobalEventParameter param)
+        public static void EnQueueEvent(GlobalEventParameter param)
         {
             Instance.eventQueue.Enqueue(param);
         }
@@ -29,7 +29,7 @@ namespace JLib
         /// </summary>
         /// <param name="eventName">지켜볼 이벤트</param>
         /// <param name="listener">이벤트가 발생하면 할 행위가 정의된 리스너</param>
-        static void RegisterListener(object eventName, Action<object> listener)
+        public static void RegisterListener(object eventName, Action<object> listener)
         {
             if (Instance.listeners.ContainsKey(eventName))
             {
@@ -46,7 +46,7 @@ namespace JLib
         /// </summary>
         /// <param name="eventName">제거할 리스너가 지켜보는 이벤트</param>
         /// <param name="listener">제거할 리스너</param>
-        static void RemoveListener(object eventName, Action<object> listener)
+        public static void RemoveListener(object eventName, Action<object> listener)
         {
             Action<object> foundedListener= null;
             if(Instance.listeners.TryGetValue(eventName,out foundedListener))
