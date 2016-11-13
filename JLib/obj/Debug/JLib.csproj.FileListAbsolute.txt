@@ -1,0 +1,7 @@
+c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Debug\JLib.csprojResolveAssemblyReference.cache
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Debug\JLib.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Debug\JLib.pdb
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Debug\UnityEngine.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Debug\UnityEngine.UI.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Debug\JLib.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Debug\JLib.pdb

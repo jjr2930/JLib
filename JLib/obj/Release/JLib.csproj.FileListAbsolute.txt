@@ -1,0 +1,8 @@
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Release\JLib.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Release\JLib.pdb
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Release\UnityEngine.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\bin\Release\UnityEngine.UI.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.dll
+c:\users\me\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.pdb
+C:\Users\ME\documents\visual studio 2015\Projects\JLib\obj\Release\JLib.csprojResolveAssemblyReference.cache
+C:\Users\ME\Documents\Visual Studio 2015\Projects\JLib\bin\Release\UnityEditor.dll
