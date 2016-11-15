@@ -8,3 +8,8 @@ C:\Users\ME\Documents\Visual Studio 2015\Projects\JLibEditor\obj\Release\JLibEdi
 C:\Users\ME\Documents\Visual Studio 2015\Projects\JLibEditor\obj\Release\JLibEditor.pdb
 C:\Users\ME\documents\visual studio 2015\Projects\DLL\JLibEditor.dll
 C:\Users\ME\documents\visual studio 2015\Projects\DLL\JLibEditor.pdb
+D:\Git\DLL\JLibEditor.dll
+D:\Git\DLL\JLibEditor.pdb
+D:\Git\JLibEditor\obj\Release\JLibEditor.csprojResolveAssemblyReference.cache
+D:\Git\JLibEditor\obj\Release\JLibEditor.dll
+D:\Git\JLibEditor\obj\Release\JLibEditor.pdb
