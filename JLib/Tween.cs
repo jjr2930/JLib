@@ -36,12 +36,13 @@ namespace JLib
         {
             duringTime += JTime.DeltaTime;
             normalTime = duringTime / duration;
-            curveValue = curve.Evaluate(normalTime);
+            curveValue = curve.Evaluate(normalTime);            
+            OnTweenUpdate();
+
             if (duringTime >= duration)
             {
                 this.enabled = false;
             }
-            OnTweenUpdate();
         }
 
         protected abstract void OnTweenUpdate();
