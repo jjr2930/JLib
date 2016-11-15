@@ -45,6 +45,7 @@ namespace JLib
         }
 
         protected abstract void OnTweenUpdate();
+        protected abstract void OnOnEnable();
         protected virtual void OnAwake() { }
     }
 }

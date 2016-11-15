@@ -33,6 +33,14 @@ namespace JLib
         {
             LoadTablePathTable();
             LoadLocalizeTable();
+            LoadResourcesTable();
+        }
+
+        void LoadResourcesTable()
+        {
+            string resourcesTablePath = Instance.tablePathTable["ResourcesTable"];
+            TextAsset jsonTable = JResources.Load<TextAsset>(resourcesTablePath);
+            ResourcesTable.LoadFromJson(jsonTable.text);
         }
 
         void LoadTablePathTable()

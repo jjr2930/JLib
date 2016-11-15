@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 namespace JLib
 {
+    [AddComponentMenu("JTween/TweenLocalPosition")]
     public class TweenLocalPosition : Tween
     {
         [SerializeField]
@@ -13,6 +14,10 @@ namespace JLib
         [SerializeField]
         Vector3 to = Vector3.zero;
 
+        protected override void OnOnEnable()
+        {
+            transform.localPosition = from;
+        }
         protected override void OnTweenUpdate()
         {
             Vector3 targetPosition = Vector3.Lerp(from, to, normalTime * curveValue);

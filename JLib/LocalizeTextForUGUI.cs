@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace JLib
 {
+    [AddComponentMenu("LocalizeTextForUGUI")]
     [RequireComponent(typeof(Text))]
     public class LocalizeTextForUGUI: JMonoBehaviour
     {

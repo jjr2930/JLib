@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace JLib
 {
-    public class TweenScale : Tween
+    [AddComponentMenu("JTween/TweenLocalScale")]
+    public class TweenLocalScale : Tween
     {
         [SerializeField]
         Vector3 from = Vector3.zero;
@@ -14,6 +15,10 @@ namespace JLib
         [SerializeField]
         Vector3 to = Vector3.zero;
 
+        protected override void OnOnEnable()
+        {
+            transform.localScale = from;
+        }
         protected override void OnTweenUpdate()
         {
             Vector3 targetScale = Vector3.Lerp(from, to, normalTime * curveValue);

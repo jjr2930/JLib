@@ -31,6 +31,16 @@ namespace JLib
             }
         }
 
+        public static bool IsUseAssetBundle()
+        {
+            if(Instance._runtimePlatfom == JPlatformType.Android
+                || Instance._runtimePlatfom == JPlatformType.IPhonePlayer)
+            {
+                return true;
+            }
+
+            return false;
+        }
         JPlatformType _runtimePlatfom = JPlatformType.None;
 
 
