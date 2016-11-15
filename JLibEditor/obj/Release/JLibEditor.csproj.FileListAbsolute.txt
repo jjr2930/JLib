@@ -13,3 +13,8 @@ D:\Git\DLL\JLibEditor.pdb
 D:\Git\JLibEditor\obj\Release\JLibEditor.csprojResolveAssemblyReference.cache
 D:\Git\JLibEditor\obj\Release\JLibEditor.dll
 D:\Git\JLibEditor\obj\Release\JLibEditor.pdb
+C:\Users\여리\Documents\GitHub\JLib\DLL\JLibEditor.dll
+C:\Users\여리\Documents\GitHub\JLib\DLL\JLibEditor.pdb
+C:\Users\여리\Documents\GitHub\JLib\JLibEditor\obj\Release\JLibEditor.csprojResolveAssemblyReference.cache
+C:\Users\여리\Documents\GitHub\JLib\JLibEditor\obj\Release\JLibEditor.dll
+C:\Users\여리\Documents\GitHub\JLib\JLibEditor\obj\Release\JLibEditor.pdb

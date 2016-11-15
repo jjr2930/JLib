@@ -19,6 +19,7 @@ namespace JLib
         {
             transform.localScale = from;
         }
+
         protected override void OnTweenUpdate()
         {
             Vector3 targetScale = Vector3.Lerp(from, to, normalTime * curveValue);
