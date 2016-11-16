@@ -13,6 +13,3 @@ D:\Git\DLL\JLib.pdb
 D:\Git\JLib\obj\Release\JLib.csprojResolveAssemblyReference.cache
 D:\Git\JLib\obj\Release\JLib.dll
 D:\Git\JLib\obj\Release\JLib.pdb
-C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.csprojResolveAssemblyReference.cache
-C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.dll
-C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.pdb

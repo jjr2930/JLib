@@ -15,7 +15,7 @@ namespace JLib
 
         [SerializeField]
         protected float delay = 0f;
-        
+
         protected float startTime = 0f;
         protected float normalTime = 0f;
         protected float duringTime = 0f;

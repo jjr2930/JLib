@@ -46,9 +46,6 @@ namespace JLib
     {
         None = 0,
         ChangeScene = 1,
-        DoTween,
-        ShowEffect,
-        AsycResourceLoad,
     }
 
 
