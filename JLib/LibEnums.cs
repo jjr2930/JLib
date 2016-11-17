@@ -51,5 +51,20 @@ namespace JLib
         AsycResourceLoad,
     }
 
+    public enum VK_Enum
+    {
+        None = 0,
+        VK_Forward,
+        VK_Back,
+        VK_Left,
+        VK_Right,
+        VK_Jump,
+        VK_Button1,
+        VK_Button2,
+        VK_Button3,
+        VK_Button4
+    }
+
+
 
 }

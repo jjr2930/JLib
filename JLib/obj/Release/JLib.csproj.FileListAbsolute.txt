@@ -16,3 +16,5 @@ D:\Git\JLib\obj\Release\JLib.pdb
 C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.csprojResolveAssemblyReference.cache
 C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.dll
 C:\Users\여리\Documents\GitHub\JLib\JLib\obj\Release\JLib.pdb
+C:\Users\여리\Documents\GitHub\JLib\DLL\JLib.dll
+C:\Users\여리\Documents\GitHub\JLib\DLL\JLib.pdb

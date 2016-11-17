@@ -9,11 +9,11 @@ namespace JLib
     public class TableLoader : Singletone<TableLoader>
     {
         Dictionary<string, string> tablePathTable = new Dictionary<string, string>();
-        public Dictionary<string, string> TablePathTable
+        public Dictionary<string, string> TablePath
         {
             get
             {
-                return TablePathTable;
+                return TablePath;
             }
         }
 
@@ -45,11 +45,12 @@ namespace JLib
 
         void LoadTablePathTable()
         {
-            TextAsset tbt = JResources.Load<TextAsset>("TablePathTable");
-            var splits = tbt.text.Replace(" ", "").Split(',', ':');
-            for (int i = 0; i < splits.Length; i += 2)
+            TextAsset txt =  JResources.Load<TextAsset>("Tables/TablePathTable");
+            string json = txt.text;
+            TablePathTable tpt = JsonUtility.FromJson<TablePathTable>(json);
+            for( int i = 0 ; i < tpt.pathTable.Count ; i++ )
             {
-                tablePathTable.Add(splits[i], splits[i + 1]);
+                tablePathTable.Add( tpt.pathTable[ i ].name , tpt.pathTable[ i ].path );
             }
         }
 

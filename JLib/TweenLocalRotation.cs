@@ -10,10 +10,10 @@ namespace JLib
     public class TweenLocalRotation : Tween
     {
         [SerializeField]
-        Vector3 from;
+        Vector3 from = Vector3.zero;
         
         [SerializeField]
-        Vector3 to;
+        Vector3 to = Vector3.zero;
 
 
         protected override void OnOnEnable()

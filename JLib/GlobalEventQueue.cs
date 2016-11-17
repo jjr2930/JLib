@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using UnityEngine.Events;
 //using UnityEngine;
 namespace JLib
 {
@@ -12,16 +12,16 @@ namespace JLib
     public class GlobalEventQueue : MonoSingle<GlobalEventQueue>
     {
         Queue<GlobalEventParameter> eventQueue = new Queue<GlobalEventParameter>();
-        Dictionary<object, Action<object>> listeners = new Dictionary<object, Action<object>>();
-        
+        Dictionary<object,UnityAction<object>> listeners = new Dictionary<object,UnityAction<object>>();
+
 
         /// <summary>
         /// 이벤트 넣기
         /// </summary>
         /// <param name="param"></param>
-        public static void EnQueueEvent(GlobalEventParameter param)
+        public static void EnQueueEvent( GlobalEventParameter param )
         {
-            Instance.eventQueue.Enqueue(param);
+            Instance.eventQueue.Enqueue( param );
         }
 
         /// <summary>
@@ -29,15 +29,15 @@ namespace JLib
         /// </summary>
         /// <param name="eventName">지켜볼 이벤트</param>
         /// <param name="listener">이벤트가 발생하면 할 행위가 정의된 리스너</param>
-        public static void RegisterListener(object eventName, Action<object> listener)
+        public static void RegisterListener( object eventName , UnityAction<object> listener )
         {
-            if (Instance.listeners.ContainsKey(eventName))
+            if( Instance.listeners.ContainsKey( eventName ) )
             {
-                Instance.listeners[eventName] += listener;
+                Instance.listeners[ eventName ] += listener;
             }
             else
             {
-                Instance.listeners.Add(eventName, listener);
+                Instance.listeners.Add( eventName , listener );
             }
         }
 
@@ -46,10 +46,10 @@ namespace JLib
         /// </summary>
         /// <param name="eventName">제거할 리스너가 지켜보는 이벤트</param>
         /// <param name="listener">제거할 리스너</param>
-        public static void RemoveListener(object eventName, Action<object> listener)
+        public static void RemoveListener( object eventName , UnityAction<object> listener )
         {
-            Action<object> foundedListener= null;
-            if(Instance.listeners.TryGetValue(eventName,out foundedListener))
+            UnityAction<object> foundedListener= null;
+            if( Instance.listeners.TryGetValue( eventName , out foundedListener ) )
             {
                 foundedListener -= listener;
             }
@@ -60,13 +60,13 @@ namespace JLib
         /// </summary>
         void Update()
         {
-            for (; eventQueue.Count != 0;)
+            for( ; eventQueue.Count != 0 ; )
             {
                 GlobalEventParameter e = eventQueue.Dequeue();
-                Action<object> founded = null;
-                if (listeners.TryGetValue(e.eventName, out founded))
+                UnityAction<object> founded = null;
+                if( listeners.TryGetValue( e.eventName , out founded ) )
                 {
-                    founded(e.value);
+                    founded( e.value );
                 }
             }
         }

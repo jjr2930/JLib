@@ -8,14 +8,31 @@ namespace JLib
 {
     public abstract class App : MonoSingle<App>
     {
+        public static Vector3 Gravity
+        {
+            get
+            {
+                return Instance.gravity;
+            }
+
+            set
+            {
+                Instance.gravity = value;
+                Physics.gravity = value;
+            }
+        }
+        Vector3 gravity = Vector3.zero;
         void Awake()
         {
+            gravity = Physics.gravity;
+
             TableLoader.Initialize();
             GlobalEventQueue.Initialize();
             JResources.Initialize();
             ProcessOtherInitialize();
             GlobalEventQueue.RegisterListener(DefaultEvent.ChangeScene, ListenSceneChange);
         }
+        
 
         public static JPlatformType Platform
         {

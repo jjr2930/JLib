@@ -6,12 +6,12 @@ namespace JLib
     public class TweenColor : Tween
     {
         [SerializeField]
-        Color from;
+        Color from = Color.white;
 
         [SerializeField]
-        Color to;
+        Color to = Color.white;
 
-        Renderer renderer = null;
+        new Renderer renderer = null;
         protected override void OnAwake()
         {
             renderer = GetComponent<Renderer>();
