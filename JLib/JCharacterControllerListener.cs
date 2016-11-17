@@ -43,6 +43,7 @@ namespace JLib
         void Update()
         {
             moveAccel.Subtract( App.Gravity );
+            moveAccel.Multiply(moveSpeed);
             moveAccel.Multiply( JTime.DeltaTime );
             cc.Move( moveAccel );
             transform.Rotate( Vector3.up , rotateSpeed * rotateFactor * JTime.DeltaTime );
@@ -91,7 +92,7 @@ namespace JLib
 
         public void ListenJump( object param )
         {
-            moveAccel += transform.up;
-        }
+            moveAccel += transform.up * jumpForce;
+        } 
     }
 }
