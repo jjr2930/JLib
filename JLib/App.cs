@@ -29,7 +29,7 @@ namespace JLib
             TableLoader.Initialize();
             GlobalEventQueue.Initialize();
             JResources.Initialize();
-            ProcessOtherInitialize();
+
             GlobalEventQueue.RegisterListener(DefaultEvent.ChangeScene, ListenSceneChange);
         }
         
@@ -61,7 +61,6 @@ namespace JLib
         JPlatformType _runtimePlatfom = JPlatformType.None;
 
 
-        public abstract void ListenSceneChange(object param); 
-        public abstract void ProcessOtherInitialize();       
+        public abstract void ListenSceneChange(object param);        
     }
 }

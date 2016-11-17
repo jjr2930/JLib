@@ -52,12 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="BaseEffectExcutor.cs" />
     <Compile Include="BasePoolManager.cs" />
     <Compile Include="BaseResourcesLoader.cs" />
     <Compile Include="BundleResourcesLoader.cs" />
     <Compile Include="EditorResourcesLoader.cs" />
     <Compile Include="BundleResourcesTable.cs" />
     <Compile Include="BaseCreateEventForUGUI.cs" />
+    <Compile Include="EffectManager.cs" />
     <Compile Include="EventTriggerDataForUGUI.cs" />
     <Compile Include="GlobalEventParameter.cs" />
     <Compile Include="GlobalEventQueue.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="LocalizeTextForUGUI.cs" />
     <Compile Include="LocalizeTable.cs" />
     <Compile Include="MonoSingle.cs" />
+    <Compile Include="Paramters\EffectParameter.cs" />
+    <Compile Include="Paramters\ListenDoTweenParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesTable.cs" />
     <Compile Include="Singletone.cs" />

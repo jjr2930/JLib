@@ -15,7 +15,7 @@ namespace JLib
 
         [SerializeField]
         protected float delay = 0f;
-        
+
         protected float startTime = 0f;
         protected float normalTime = 0f;
         protected float duringTime = 0f;
@@ -36,13 +36,12 @@ namespace JLib
         {
             duringTime += JTime.DeltaTime;
             normalTime = duringTime / duration;
-            curveValue = curve.Evaluate(normalTime);            
-            OnTweenUpdate();
-
+            curveValue = curve.Evaluate(normalTime);
             if (duringTime >= duration)
             {
                 this.enabled = false;
             }
+            OnTweenUpdate();
         }
 
         protected abstract void OnTweenUpdate();
