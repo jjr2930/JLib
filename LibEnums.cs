@@ -67,11 +67,17 @@ namespace JLib
         VK_Left,
         VK_Right,
         VK_Jump,
+        VK_LeftDrag,
+        VK_RightDrag,
+        VK_UpDrag,
+        VK_DownDrag,
         VK_Button1,
         VK_Button2,
         VK_Button3,
-        VK_Button4
+        VK_Button4,
     }
+
+
 
     public enum VK_State
     {
@@ -88,8 +94,12 @@ namespace JLib
         Back,
         Left,
         Right,
-        RotClock,
-        RotCounterClock,
+        PitchClock,
+        PitchCounterClock,
+        YawClock,
+        YawCounterClock,
+        RollClock,
+        RollCounterClock,
         Jump
     }
 

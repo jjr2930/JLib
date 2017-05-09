@@ -8,7 +8,7 @@ namespace JLib
         public string effectName;
         public Transform parent;
         public Vector3 position;
-        public Vector3 rotation;
+        public Quaternion rotation;
         public Vector3 scale;
     }
 }

@@ -25,9 +25,10 @@ namespace JLib
             BaseEffectExcutor effect = BasePoolManager.GetObject<BaseEffectExcutor>(p.effectName);
             effect.transform.parent = p.parent;
             effect.transform.position = p.position;
-            effect.transform.rotation = Quaternion.Euler( p.rotation );
+            effect.transform.rotation = p.rotation;
+            //effect.transform.localScale = effect.transform.worldToLocalMatrix * Vector3.one;
             effect.transform.localScale = p.scale;
-            effect.Play();
+            effect.Play(p.effectName);
         }
     }
 }

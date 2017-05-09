@@ -51,37 +51,58 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\JISmartObject.cs" />
     <Compile Include="App.cs" />
-    <Compile Include="BaseEffectExcutor.cs" />
+    <Compile Include="BaseCreateEventForUGUI.cs" />
     <Compile Include="BasePoolManager.cs" />
     <Compile Include="BaseResourcesLoader.cs" />
     <Compile Include="BundleResourcesLoader.cs" />
     <Compile Include="EditorResourcesLoader.cs" />
-    <Compile Include="BundleResourcesTable.cs" />
-    <Compile Include="BaseCreateEventForUGUI.cs" />
-    <Compile Include="EffectManager.cs" />
+    <Compile Include="Effect\BaseEffectExcutor.cs" />
+    <Compile Include="Effect\DecalEffectExcutor.cs" />
+    <Compile Include="Effect\EffectManager.cs" />
     <Compile Include="EventTriggerDataForUGUI.cs" />
+    <Compile Include="GlobalConfigure.cs" />
     <Compile Include="GlobalEventParameter.cs" />
     <Compile Include="GlobalEventQueue.cs" />
     <Compile Include="JCharacterControllerListener.cs" />
+    <Compile Include="JCommonPopupUIManager.cs" />
+    <Compile Include="JIUIManager.cs" />
+    <Compile Include="JListExtension.cs" />
     <Compile Include="JMonoBehaviour.cs" />
+    <Compile Include="JMouseInput.cs" />
     <Compile Include="JResources.cs" />
     <Compile Include="JTime.cs" />
+    <Compile Include="JUIManagerInitializer.cs" />
+    <Compile Include="JUnityEvent.cs" />
     <Compile Include="LibEnums.cs" />
-    <Compile Include="LocalizeTextForUGUI.cs" />
-    <Compile Include="LocalizeTable.cs" />
+    <Compile Include="UIExtension\LocalizeTextForUGUI.cs" />
     <Compile Include="MonoSingle.cs" />
+    <Compile Include="ParameterPool.cs" />
     <Compile Include="Paramters\EffectParameter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singletone.cs" />
-    <Compile Include="TableLoader.cs" />
-    <Compile Include="TablePathTable.cs" />
+    <Compile Include="PCVirtualKeyMapper.cs" />
+    <Compile Include="Sound\BaseAudioSourceListener.cs" />
+    <Compile Include="Tables\BundleResourcesTable.cs" />
+    <Compile Include="Tables\ITableList.cs" />
+    <Compile Include="Tables\LocalizeTable.cs" />
+    <Compile Include="Tables\ResourcesTable.cs" />
+    <Compile Include="Tables\TableLoader.cs" />
+    <Compile Include="Tables\TablePathTable.cs" />
+    <Compile Include="TransfromExtension.cs" />
     <Compile Include="Tween\Tween.cs" />
     <Compile Include="Tween\TweenLocalPosition.cs" />
     <Compile Include="Tween\TweenManager.cs" />
     <Compile Include="Tween\TweenLocalRotation.cs" />
     <Compile Include="Tween\TweenLocalScale.cs" />
-    <Compile Include="Vector3Extension.cs" />
+    <Compile Include="UIExtension\JText.cs" />
+    <Compile Include="UIExtension\JToggleExtension.cs" />
+    <Compile Include="UIExtension\TextBG.cs" />
+    <Compile Include="UIExtension\Tooltip.cs" />
+    <Compile Include="UIExtension\TooltipEventCreator.cs" />
+    <Compile Include="V3Extension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

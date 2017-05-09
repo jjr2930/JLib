@@ -8,7 +8,7 @@ namespace JLib
 {
     public interface ITween
     {
-        bool Enabled { get; set;}
+        bool Enabled { get; set; }
         string GetTweenID();
         void UpdateTween();
     }
@@ -40,7 +40,7 @@ namespace JLib
         /// </summary>
         [SerializeField]
         protected float delay = 0f;
-        
+
         /// <summary>
         /// 트윈이 행해진후 실행할 함수
         /// </summary>
@@ -59,7 +59,7 @@ namespace JLib
         protected float curveValue = 0f;
         protected bool isEnabledBefore= false;
 
-        
+
         [SerializeField]
         protected T from;
 
@@ -73,12 +73,12 @@ namespace JLib
         /// </summary>
         protected T realFrom;
         protected T realTo;
-        
+
         public string GetTweenID()
         {
             return tweenID;
         }
-        
+
         public bool Enabled
         {
             get
@@ -91,9 +91,15 @@ namespace JLib
             }
         }
 
+        public void Set( T _from , T _to )
+        {
+            from = _from;
+            to = _to;
+        }
+
         void Awake()
         {
-            if(string.IsNullOrEmpty(tweenID))
+            if( string.IsNullOrEmpty( tweenID ) )
             {
                 string[] splits = typeof(T).ToString().Split('.');
                 string typeName = splits[splits.Length - 1];
@@ -101,16 +107,17 @@ namespace JLib
             }
             TweenManager.AddTween( this );
             this.enabled = PlayWhenAwake;
-            realFrom = from;
-            realTo = to;
+            
             OnAwake();
-        } 
+        }
 
         void OnEnable()
         {
             startTime = JTime.Time;
-            duration = Mathf.Max(float.MinValue, duration);
+            duration = Mathf.Max( float.MinValue , duration );
             normalTime = 0f;
+            realFrom = from;
+            realTo = to;
             OnOnEnable();
             isEnabledBefore = true;
 
@@ -119,26 +126,26 @@ namespace JLib
         {
             duringTime += JTime.DeltaTime;
             normalTime = duringTime / duration;
-            curveValue = curve.Evaluate(normalTime);
-           
+            curveValue = curve.Evaluate( normalTime );
+
             OnTweenUpdate();
-            
-            if (duringTime >= duration)
+
+            if( duringTime >= duration )
             {
                 this.enabled = false;
                 callback.Invoke();
             }
-            
+
         }
 
 
         private void OnDisable()
         {
-            if(!isEnabledBefore)
+            if( !isEnabledBefore )
             {
                 return;
             }
-            switch (mode)
+            switch( mode )
             {
                 case TweenMode.Normal:
                     duringTime = 0;
@@ -146,7 +153,7 @@ namespace JLib
 
                 case TweenMode.Loop:
                     LoopMethod();
-                    enabled =true;
+                    enabled = true;
                     break;
 
                 case TweenMode.Pingpong:
@@ -157,13 +164,28 @@ namespace JLib
 
         public void Play()
         {
-            enabled = true;
+            if( !enabled )
+            {
+                enabled = true;
+            }
+            else
+            {
+                OnEnable();
+            }
         }
 
         public void PlayFromBegin()
         {
-            enabled = true;
-            duringTime = 0f;
+            if( !enabled )
+            {
+                enabled = true;
+            }
+            else
+            {
+                OnEnable();
+                duringTime = 0f;
+            }
+            
         }
 
         public void LoopMethod()
@@ -181,7 +203,7 @@ namespace JLib
         }
 
         abstract public T Lerp();
-        protected abstract void OnOnEnable();        
+        protected abstract void OnOnEnable();
         protected abstract void OnTweenUpdate();
         protected virtual void OnAwake() { }
         protected virtual void OnOnDisable() { }

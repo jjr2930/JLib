@@ -4,6 +4,6 @@ namespace JLib
 {
     public abstract class BaseEffectExcutor : JMonoBehaviour
     {
-        public abstract void Play() ;
+        public abstract void Play(string effectName) ;
     }
 }

@@ -10,28 +10,33 @@ using UnityEngine;
 namespace JLib
 {
     [Serializable]
-    public class SingleParameter<T>
+    public class IntParameter
     {
-        public T value;
+        public int value;
     }
 
     [Serializable]
-    public class ListParameter<T> : IDisposable
+    public class BoolParameter
     {
-        public List<T> value;
-
-        public void Dispose()
-        {
-            for( int i = 0; i < value.Count; i++ )
-            {
-                //element dispose....
-                IDisposable element = value[ i ] as IDisposable;
-                if( null != element )
-                {
-                    element.Dispose();
-                }
-            }
-            value.Clear();
-        }
+        public bool value;
     }
+
+    [Serializable]
+    public class FloatParameter
+    {
+        public float value;
+    }
+
+    [Serializable]
+    public class QuaternionParameter
+    {
+        public Quaternion value;
+    }
+
+    [Serializable]
+    public class Vector3Parameter
+    {
+        public Vector3 value;
+    }
+
 }

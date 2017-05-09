@@ -8,6 +8,6 @@ namespace JLib
     public class VirtualKeyParameter
     {
         public VK_Enum key;
-        public VK_State state;
+        public float additionalData;
     }
 }

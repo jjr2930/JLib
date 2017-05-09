@@ -8,7 +8,6 @@ namespace JLib
 {
     public class GlobalEventParameter
     {
-        public long id { get; set; }
         public Enum eventName { get; set; }
         public object value { get; set; }
     }

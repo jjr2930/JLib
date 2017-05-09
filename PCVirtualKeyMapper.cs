@@ -13,29 +13,39 @@ namespace JLib
         public KeyCode keyboardKey;
         public VK_Enum virtualKey;
     }
+
+
     public class PCVirtualKeyMapper : MonoSingle<PCVirtualKeyMapper>
     {
         [SerializeField]
-        List<PCVirtualKeyMapData> mappingList
+        List<PCVirtualKeyMapData> keyMapList
             = new List<PCVirtualKeyMapData>();
 
         void Update()
         {
-            for(int i =0; i<mappingList.Count; i++)
+            
+            for(int i =0; i<keyMapList.Count; i++)
             {
-                if(Input.GetKeyDown(mappingList[i].keyboardKey))
+                if(Input.GetKeyDown(keyMapList[i].keyboardKey))
                 {
-                    GlobalEventQueue.EnQueueEvent( VK_State.Down, mappingList[ i ].virtualKey );
+                    VirtualKeyParameter param = ParameterPool.GetParameter<VirtualKeyParameter>();
+                    param.key = keyMapList[ i ].virtualKey;
+                    GlobalEventQueue.EnQueueEvent( VK_State.Down , param );
                 }
 
-                if(Input.GetKey(mappingList[i].keyboardKey))
+                if(Input.GetKey(keyMapList[i].keyboardKey))
                 {
-                    GlobalEventQueue.EnQueueEvent(VK_State.Press, mappingList[i].virtualKey);
+                    VirtualKeyParameter param = ParameterPool.GetParameter<VirtualKeyParameter>();
+                    param.key = keyMapList[ i ].virtualKey;
+                    GlobalEventQueue.EnQueueEvent( VK_State.Press , param );
                 }
 
-                if(Input.GetKeyUp(mappingList[i].keyboardKey))
+                if(Input.GetKeyUp(keyMapList[i].keyboardKey))
                 {
-                    GlobalEventQueue.EnQueueEvent( VK_State.Up, mappingList[ i ].virtualKey );
+                    VirtualKeyParameter param = ParameterPool.GetParameter<VirtualKeyParameter>();
+                    param.key = keyMapList[ i ].virtualKey;
+                    GlobalEventQueue.EnQueueEvent( VK_State.Up, param );
+
                 }
             }
         }

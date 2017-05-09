@@ -41,6 +41,7 @@ namespace JLib
             TableLoader.Initialize();
             GlobalEventQueue.Initialize();
             JResources.Initialize();
+            EffectManager.Initialize();
             OnAwake();
             GlobalEventQueue.RegisterListener( DefaultEvent.LoadScene , ListenSceneChange );
             GlobalEventQueue.RegisterListener( DefaultEvent.AddScene , ListenAddScene );

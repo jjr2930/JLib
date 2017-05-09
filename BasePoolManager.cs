@@ -21,14 +21,14 @@ namespace JLib
         Dictionary<string,List<PoolData>> unityObjectPool
             = new Dictionary<string, List<PoolData>>();
 
-        public static GameObject GetObject( string resourceName )
+        public static GameObject GetObject( string resourcePath )
         {
             PoolData foundedData = null;
             List<PoolData> foundedList = null;
-            if( !Instance.unityObjectPool.TryGetValue( resourceName , out foundedList ) )
+            if( !Instance.unityObjectPool.TryGetValue( resourcePath , out foundedList ) )
             {
-                List<PoolData> newList = new List<PoolData>();
-                Instance.unityObjectPool.Add( resourceName , newList );
+                foundedList = new List<PoolData>();
+                Instance.unityObjectPool.Add( resourcePath , foundedList );
             }
 
             //find at list
@@ -45,8 +45,9 @@ namespace JLib
             //not founded at List
             //so Instantiate new object
             //find path from ResourcesTable
-            string path = ResourcesTable.GetResourcePath(resourceName);
-            foundedData = Instance.SpawnObjectToPool( resourceName , path );
+            string[] splits = resourcePath.Split('.');
+            string name = splits[splits.Length - 1 ];
+            foundedData = Instance.SpawnObjectToPool( name , resourcePath);
             foundedData.IsInPool = false;
             return foundedData.obj;
         }
@@ -61,7 +62,7 @@ namespace JLib
                     resourceName , typeof( T ).ToString() );
                 return null;
             }
-
+            component.gameObject.SetActive( true );
             return component;
         }
 
