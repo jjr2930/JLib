@@ -78,12 +78,12 @@
     <Compile Include="Singletone.cs" />
     <Compile Include="TableLoader.cs" />
     <Compile Include="TablePathTable.cs" />
-    <Compile Include="Tween.cs" />
-    <Compile Include="TweenColor.cs" />
-    <Compile Include="TweenLocalPosition.cs" />
-    <Compile Include="TweenManager.cs" />
-    <Compile Include="TweenLocalRotation.cs" />
-    <Compile Include="TweenLocalScale.cs" />
+    <Compile Include="Tween\Tween.cs" />
+    <Compile Include="Tween\TweenColor.cs" />
+    <Compile Include="Tween\TweenLocalPosition.cs" />
+    <Compile Include="Tween\TweenManager.cs" />
+    <Compile Include="Tween\TweenLocalRotation.cs" />
+    <Compile Include="Tween\TweenLocalScale.cs" />
     <Compile Include="Vector3Extension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
