@@ -18,7 +18,14 @@ public class TweenShake : Tween<Vector3>
     protected override void OnAwake()
     {
         base.OnAwake();
-        updateDelegate = DecreaseShake;
+        if(isIncrease)
+        {
+            updateDelegate = IncreaseShake;
+        }
+        else
+        {
+            updateDelegate = DecreaseShake;
+        }
     }
 
     protected override void OnOnEnable()

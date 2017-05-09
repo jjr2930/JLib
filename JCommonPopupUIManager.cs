@@ -32,10 +32,10 @@ public class JCommonPopupUIManager : MonoSingle<JCommonPopupUIManager>, JIUIMana
     LocalizeTextForUGUI descript = null;
 
     [SerializeField]
-    UnityEvent onShowEvent;
+    UnityEvent onShowEvent = null;
 
     [SerializeField]
-    UnityEvent onHideEvent;
+    UnityEvent onHideEvent = null;
 
     public void SetActive(bool value)
     {

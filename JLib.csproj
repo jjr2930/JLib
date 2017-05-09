@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -76,6 +77,19 @@
     <Compile Include="JUIManagerInitializer.cs" />
     <Compile Include="JUnityEvent.cs" />
     <Compile Include="LibEnums.cs" />
+    <Compile Include="Paramters\CommonPopupEventParameter.cs" />
+    <Compile Include="Paramters\DefaultParameters.cs" />
+    <Compile Include="Paramters\JSmartObjectParameter.cs" />
+    <Compile Include="Paramters\JUIEventParameter.cs" />
+    <Compile Include="Paramters\TooltipParameter.cs" />
+    <Compile Include="Paramters\VirtualKeyParameter.cs" />
+    <Compile Include="Tween\TweenColor.cs" />
+    <Compile Include="Tween\TweenFontColor.cs" />
+    <Compile Include="Tween\TweenPosition.cs" />
+    <Compile Include="Tween\TweenRectLocalPosition.cs" />
+    <Compile Include="Tween\TweenRectSize.cs" />
+    <Compile Include="Tween\TweenRotation.cs" />
+    <Compile Include="Tween\TweenShake.cs" />
     <Compile Include="UIExtension\LocalizeTextForUGUI.cs" />
     <Compile Include="MonoSingle.cs" />
     <Compile Include="ParameterPool.cs" />
