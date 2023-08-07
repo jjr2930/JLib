@@ -6,7 +6,7 @@ using TMPro;
 
 namespace JLib.UI
 {
-    public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
+    public class CommonPopupUI : MonoSingle<CommonPopupUI>
     {
         [SerializeField]
         Button okButton = null;
@@ -46,6 +46,8 @@ namespace JLib.UI
 
             this.okCallback = okCallback;
             this.cancelCallack = cancelCallback;
+
+            gameObject.SetActive(true);
         }
 
         public void OnOkClicked()
