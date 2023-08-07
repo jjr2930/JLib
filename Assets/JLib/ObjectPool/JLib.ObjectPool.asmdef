@@ -1,0 +1,16 @@
+{
+    "name": "JLib.ObjectPool",
+    "rootNamespace": "JLib.ObjectPool",
+    "references": [
+        "GUID:50400dc5116908d44b419ffe15e2c7f5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

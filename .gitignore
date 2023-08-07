@@ -4,3 +4,6 @@ Release
 /JLibEditor/obj
 Library/
 .vs/
+/UserSettings
+/Temp
+/Logs
