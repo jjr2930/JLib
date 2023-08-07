@@ -7,6 +7,9 @@ using UnityEngine.ResourceManagement;
 
 namespace JLib.ObjectPool.Addressables
 {
+    /// <summary>
+    /// addressable을 이용한 오브젝트풀
+    /// </summary>
     public class DefaultObjectPool : PoolBase<DefaultKey, AssetReference, DefaultPoolObject, DefaultObjectPool>
     {
         protected override DefaultPoolObject CreateInstance(AssetReference poolObject)

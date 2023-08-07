@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace JLib.ObjectPool
 {
+    /// <summary>
+    /// Addressables를 사용하지 않는 오브젝트 풀
+    /// </summary>
     public class DefaultObjectPool : PoolBase<DefaultKey, GameObject, DefaultPoolObject, DefaultObjectPool>
     {
         protected override DefaultPoolObject CreateInstance(GameObject poolObject)
