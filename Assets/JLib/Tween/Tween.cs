@@ -17,14 +17,11 @@ namespace JLib.Tween
     public interface ITween
     {
         bool Enabled { get; set; }
-        string GetTweenID();
         void UpdateTween();
     }
 
     public abstract class Tween<T> : MonoBehaviour, ITween
     {
-        [SerializeField]
-        protected string tweenID;
         /// <summary>
         /// 트윈의 커브
         /// </summary>
@@ -82,11 +79,6 @@ namespace JLib.Tween
         protected T realFrom;
         protected T realTo;
 
-        public string GetTweenID()
-        {
-            return tweenID;
-        }
-
         public bool Enabled
         {
             get
@@ -107,12 +99,6 @@ namespace JLib.Tween
 
         void Awake()
         {
-            if( string.IsNullOrEmpty( tweenID ) )
-            {
-                string[] splits = typeof(T).ToString().Split('.');
-                string typeName = splits[splits.Length - 1];
-                tweenID = string.Format( "{0}.{1}" , this.gameObject.name , typeName );
-            }
             TweenManager.AddTween( this );
             this.enabled = PlayWhenAwake;
             

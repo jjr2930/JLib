@@ -31,21 +31,22 @@ namespace JLib
                     string[] typeNameSplits = typeof(T).ToString().Split('.');
                     string typeName = typeNameSplits[typeNameSplits.Length -1];
                     var loadObjs = Resources.LoadAll<T>("Prefabs/Singleton/");
-                    
-                    if (loadObjs.Length != 1)
-                        throw new InvalidOperationException($"{typeof(T)} is not only one");
 
-                    if( null != loadObjs[0] )
+                    if (loadObjs.Length > 1)
+                    {
+                        throw new InvalidOperationException($"{typeof(T)} is not only one");
+                    }
+                    else if (loadObjs.Length == 1)
                     {
                         _instance = Instantiate(loadObjs[0]);
                     }
                     else
                     {
                         //create new gameobject
-                        Debug.LogFormat( "{0} was not founded so Instnatiate {0}" , typeof( T ).ToString() ); ;
-                        string[] splits = typeof( T ).ToString().Split( '.' );
-                        string name = splits[ splits.Length - 1 ];
-                        GameObject go = new GameObject( name );
+                        Debug.LogFormat("{0} was not founded so Instnatiate {0}", typeof(T).ToString()); ;
+                        string[] splits = typeof(T).ToString().Split('.');
+                        string name = splits[splits.Length - 1];
+                        GameObject go = new GameObject(name);
                         _instance = go.AddComponent<T>();
                     }
                     break;

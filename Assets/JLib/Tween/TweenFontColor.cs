@@ -2,18 +2,19 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using TMPro;
 
 namespace JLib.Tween
 {
     [AddComponentMenu("JTween/TweenFontColor")]
     public class TweenFontColor : Tween<Color>
     {
-        Text txt = null;
+        TextMeshProUGUI txt = null;
 
         // Use this for initialization
         protected override void OnAwake()
         {
-            txt = GetComponent<Text>();
+            txt = GetComponent<TextMeshProUGUI>();
         }
 
         protected override void OnOnEnable()
@@ -30,6 +31,5 @@ namespace JLib.Tween
         {
             return Color.Lerp( realFrom , realTo , curveValue );
         }
-
     }
 }
