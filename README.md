@@ -7,13 +7,13 @@
 <img width=600 height=500 src = "https://github.com/jjr2930/JLib/blob/master/ReadMeResources/CommonPopupUI.png?raw=true"/>
 
 ## Localization Text (현지화 텍스트)
-LocalizationTable Inspector
+LocalizationTable Inspector<p>
 <img width=600 height=400 src = "https://github.com/jjr2930/JLib/blob/master/ReadMeResources/LocalizationTextTableInspector.png?raw=true"/>
 
-LocalizationTextTMP inspector
+LocalizationTextTMP inspector<p>
 <img width=600 height=400 src = "https://github.com/jjr2930/JLib/blob/master/ReadMeResources/LocalizationTextForTMP%20Inspector.gif?raw=true"/>
 
-동작
+동작<p>
 <img src = "https://github.com/jjr2930/JLib/blob/master/ReadMeResources/LocalizationTable.gif?raw=true"/>
 
 ## Object Pool
