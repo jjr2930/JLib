@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using System;
 
-namespace Localization
+namespace JLib.Localization
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class LocalizationForTMPUI : MonoBehaviour
@@ -42,6 +42,12 @@ namespace Localization
         public void SetTextOnly(string value)
         {
             text.text = value;
+        }
+
+        public void OnSystemLanguageChanged(SystemLanguage language)
+        {
+            text.font = LocalizationConfig.Instance.GetFont(language);
+            Start();
         }
     }
 }

@@ -59,11 +59,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.5f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\JLib\Localization\LanguageChangeListener.cs" />
     <Compile Include="Assets\JLib\Localization\LocalizationTextTable.cs" />
     <Compile Include="Assets\JLib\Localization\LocalizationForTMPUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\JLib\Localization\Localization.asmdef" />
+    <None Include="Assets\JLib\Localization\JLib.Localization.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -725,6 +726,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="JLib.Core.csproj">
+      <Project>{7FA7E2C6-67E9-4BA3-48A0-3A07611CE04C}</Project>
+      <Name>JLib.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

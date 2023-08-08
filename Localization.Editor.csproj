@@ -65,7 +65,7 @@
     <Compile Include="Assets\JLib\Localization\Localization.Editor\LocalizationTextEditorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\JLib\Localization\Localization.Editor\Localization.Editor.asmdef" />
+    <None Include="Assets\JLib\Localization\Localization.Editor\JLib.Localization.Editor.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Localization.Editor
+namespace JLib.Localization.Editor
 {
     [CustomEditor(typeof(LocalizationTextTable))]
     public class LocalizationTextTableInspector : UnityEditor.Editor
@@ -89,85 +89,94 @@ namespace Localization.Editor
 
         public override void OnInspectorGUI()
         {
-            serializedObject.ApplyModifiedProperties();
-            list.DoLayoutList();
-            if (Selection.HasAny())
+            using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
-                var oiginColor = GUI.backgroundColor;
-                GUI.backgroundColor = Color.red;
-                if (GUILayout.Button("Back"))
+                serializedObject.Update();
+                serializedObject.ApplyModifiedProperties();
+                list.DoLayoutList();
+                if (Selection.HasAny())
                 {
-                    var objectToBack = Selection.PopSelection();
-                    UnityEditor.Selection.activeObject = objectToBack;
-                }
-                GUI.backgroundColor = oiginColor;
-            }
-
-            string sheetURL = EditorPrefs.GetString(GOOGLE_SHEET_URI_KEY, DEFAULT_GOOGLE_SHEET_URI);
-            using (var horizontalScope = new EditorGUILayout.HorizontalScope())
-            {
-                using (var changeSopce = new EditorGUI.ChangeCheckScope())
-                {
-                    sheetURL = EditorGUILayout.TextField(sheetURL);
-                    if (changeSopce.changed)
-                        EditorPrefs.SetString(GOOGLE_SHEET_URI_KEY, sheetURL);
-                }
-
-                if(GUILayout.Button("Default", GUILayout.Width(100)))
-                    EditorPrefs.SetString(GOOGLE_SHEET_URI_KEY, DEFAULT_GOOGLE_SHEET_URI);
-            }
-
-            if (GUILayout.Button("Import TSV"))
-            {
-                EditorUtility.DisplayProgressBar("Wait...", "connecting..", 0.5f);
-
-                UnityWebRequest.ClearCookieCache();
-                UnityWebRequest request = new UnityWebRequest(sheetURL);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.timeout = 5;
-                
-                var requestOperation = request.SendWebRequest();
-                requestOperation.completed +=
-                    (operation) =>
+                    var oiginColor = GUI.backgroundColor;
+                    GUI.backgroundColor = Color.red;
+                    if (GUILayout.Button("Back"))
                     {
-                        var convertedOperation = operation as UnityWebRequestAsyncOperation;
-                        if(false == string.IsNullOrEmpty(convertedOperation.webRequest.error))
+                        var objectToBack = Selection.PopSelection();
+                        UnityEditor.Selection.activeObject = objectToBack;
+                    }
+                    GUI.backgroundColor = oiginColor;
+                }
+
+                string sheetURL = EditorPrefs.GetString(GOOGLE_SHEET_URI_KEY, DEFAULT_GOOGLE_SHEET_URI);
+                using (var horizontalScope = new EditorGUILayout.HorizontalScope())
+                {
+                    using (var changeSopce = new EditorGUI.ChangeCheckScope())
+                    {
+                        sheetURL = EditorGUILayout.TextField(sheetURL);
+                        if (changeSopce.changed)
+                            EditorPrefs.SetString(GOOGLE_SHEET_URI_KEY, sheetURL);
+                    }
+
+                    if (GUILayout.Button("Default", GUILayout.Width(100)))
+                        EditorPrefs.SetString(GOOGLE_SHEET_URI_KEY, DEFAULT_GOOGLE_SHEET_URI);
+                }
+
+                if (GUILayout.Button("Import TSV"))
+                {
+                    EditorUtility.DisplayProgressBar("Wait...", "connecting..", 0.5f);
+
+                    UnityWebRequest.ClearCookieCache();
+                    UnityWebRequest request = new UnityWebRequest(sheetURL);
+                    request.downloadHandler = new DownloadHandlerBuffer();
+                    request.timeout = 5;
+
+                    var requestOperation = request.SendWebRequest();
+                    requestOperation.completed +=
+                        (operation) =>
                         {
-                            Debug.LogError($"Error : {convertedOperation.webRequest.error}");
+                            var convertedOperation = operation as UnityWebRequestAsyncOperation;
+                            if (false == string.IsNullOrEmpty(convertedOperation.webRequest.error))
+                            {
+                                Debug.LogError($"Error : {convertedOperation.webRequest.error}");
+                                EditorUtility.ClearProgressBar();
+                                return;
+                            }
+
+
+                            EditorUtility.DisplayProgressBar("Wait...", "connecting..", 0.75f);
+                            var csv = convertedOperation.webRequest.downloadHandler.text;
+
+                            if (string.IsNullOrEmpty(csv))
+                            {
+                                Debug.LogError("구글 시트가 비워져 있어요");
+                                return;
+                            }
+                            Script.ImportFromTSV(csv);
+                            EditorUtility.SetDirty(target);
                             EditorUtility.ClearProgressBar();
-                            return;
-                        }
+                            Repaint();
+                        };
+                }
 
+                if (GUILayout.Button("Export TSV"))
+                {
+                    var path = EditorUtility.SaveFilePanel("Save", "", "LocalizationTable", "csv");
+                    if (string.IsNullOrEmpty(path))
+                        EditorUtility.DisplayDialog("Warnning", "Please select valid path", "OK");
 
-                        EditorUtility.DisplayProgressBar("Wait...", "connecting..", 0.75f);
-                        var csv = convertedOperation.webRequest.downloadHandler.text;
-                        
-                        if (string.IsNullOrEmpty(csv))
-                        {
-                            Debug.LogError("구글 시트가 비워져 있어요");
-                            return;
-                        }
-                        Script.ImportFromTSV(csv);
-                        EditorUtility.SetDirty(target);
-                        EditorUtility.ClearProgressBar();
-                        Repaint();
-                    };
+                    Script.Export(path);
+                }
+
+                var errorInfo = Script.FindError();
+                if (errorInfo.errorType == ErrorType.NoError)
+                    EditorGUILayout.LabelField($"There is no error");
+                else
+                    EditorGUILayout.LabelField($"Error : {errorInfo.errorType}, line : {errorInfo.line}, column : {errorInfo.column}");
+
+                if(changeScope.changed)
+                {
+                    EditorUtility.SetDirty(target);
+                }
             }
-
-            if(GUILayout.Button("Export TSV"))
-            {
-                var path = EditorUtility.SaveFilePanel("Save", "", "LocalizationTable", "csv");
-                if (string.IsNullOrEmpty(path))
-                    EditorUtility.DisplayDialog("Warnning", "Please select valid path", "OK");
-
-                Script.Export(path);
-            }
-
-            var errorInfo = Script.FindError();
-            if (errorInfo.errorType == ErrorType.NoError)
-                EditorGUILayout.LabelField($"There is no error");
-            else
-                EditorGUILayout.LabelField($"Error : {errorInfo.errorType}, line : {errorInfo.line}, column : {errorInfo.column}");
         }
     }
 }

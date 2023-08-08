@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.Text;
 using System.IO;
+using TMPro;
 
-namespace Localization
+namespace JLib.Localization
 {
     [Serializable]
     public class LocalizationTableScheme
@@ -30,7 +31,7 @@ namespace Localization
         public int line;
     }
 
-    //[CreateAssetMenu(menuName = "Tables/LocalizationTable")]
+    [CreateAssetMenu(menuName = "Tables/LocalizationTable")]
     public class LocalizationTextTable : ScriptableObject
     {
         [SerializeField] 
@@ -154,6 +155,8 @@ namespace Localization
 
                 Instance.localizationTextMap.Add(row.key, localiztionText);
             }
+
+            FindFirstObjectByType<LocalizationForTMPUI>().OnSystemLanguageChanged(language);
         }
 
         public string GetText(string key)

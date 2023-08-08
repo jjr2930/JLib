@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Localization.Editor
+namespace JLib.Localization.Editor
 {
     public static class LocalizationTextEditorUtility
     {

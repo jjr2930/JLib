@@ -63,6 +63,7 @@
     <Compile Include="Assets\Tests\CommPopupUI\CommonPopupUITest.cs" />
     <Compile Include="Assets\Tests\PoolTest\PoolTestScript.cs" />
     <Compile Include="Assets\GlobalConfigure.cs" />
+    <Compile Include="Assets\Tests\LocaliztionText\LocalizationTextTestScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -753,9 +754,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Localization.Editor.csproj">
-      <Project>{CE63FF3D-0417-B4BA-132B-29C01EE5FF9A}</Project>
-      <Name>Localization.Editor</Name>
+    <ProjectReference Include="JLib.Localization.csproj">
+      <Project>{78402A94-9143-A3E8-5DF4-318271073089}</Project>
+      <Name>JLib.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="JLib.Localization.Editor.csproj">
+      <Project>{CB70EF68-E014-902C-0612-8B458300A50E}</Project>
+      <Name>JLib.Localization.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="JLib.Tween.csproj">
       <Project>{AAACE31C-8148-9CD4-7622-EA48A0BF0804}</Project>
@@ -776,10 +781,6 @@
     <ProjectReference Include="JLib.Generics.csproj">
       <Project>{BC8267A0-85D8-2170-5C29-FE17D1531FC7}</Project>
       <Name>JLib.Generics</Name>
-    </ProjectReference>
-    <ProjectReference Include="Localization.csproj">
-      <Project>{FB4E1B12-86D8-FAF0-1E59-83411373C0FD}</Project>
-      <Name>Localization</Name>
     </ProjectReference>
     <ProjectReference Include="JLib.UI.csproj">
       <Project>{9BF1DE18-9EFA-0E45-3118-0CBA00DF20C5}</Project>

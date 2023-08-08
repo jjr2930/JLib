@@ -5,7 +5,7 @@ using UnityEditor;
 using System;
 using System.IO;
 
-namespace Localization.Editor
+namespace JLib.Localization.Editor
 {
     [CustomEditor(typeof(LocalizationForTMPUI))]
     public class LocalizationForTMPUIInspector : UnityEditor.Editor

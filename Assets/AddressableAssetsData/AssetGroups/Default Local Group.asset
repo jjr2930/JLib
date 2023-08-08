@@ -42,6 +42,27 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee231559bcb5fcb41ba42c8e256a8535
+    m_Address: Assets/New Localization Text Table.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Tables
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9ab15aaa3a89834185c200cd6592da4
+    m_Address: Assets/NotoSansKR-Regular SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 595ccbe4759683342b2caecc110610be
+    m_Address: Assets/NotoSansSC-Regular SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ceae187e962f1ec41826daf2d24df3e5
+    m_Address: Assets/NotoSansJP-Regular SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e0665e79be8fffd41a6308b98fede2ca, type: 2}
   m_SchemaSet:

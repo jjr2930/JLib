@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45edfddd026a74428dd389ec26ad2b3, type: 3}
+  m_Name: New Localization Text Table
+  m_EditorClassIdentifier: 
+  data:
+  - key: HI
+    english: hi
+    korean: "\uC548\uB155"
+    chinese: "\u4F60\u597D"
+    japanese: "\u3053\u3093\u306B\u3061\u306F"

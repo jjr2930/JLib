@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Localization.Editor
+namespace JLib.Localization.Editor
 {
     public static class Selection
     {
