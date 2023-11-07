@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement;
 namespace JLib.ObjectPool.Addressables
 {
     /// <summary>
-    /// addressableÀ» ÀÌ¿ëÇÑ ¿ÀºêÁ§Æ®Ç®
+    /// Object pool using addressables
     /// </summary>
     public class DefaultObjectPool : PoolBase<DefaultKey, AssetReference, DefaultPoolObject, DefaultObjectPool>
     {
