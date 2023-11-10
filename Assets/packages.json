@@ -1,0 +1,20 @@
+{
+  "name": "com.jungyeol.jlib",
+  "version": "1.2.3",
+  "displayName": "Package Example",
+  "description": "This is an example package",
+  "unity": "2022.3",
+  "unityRelease": "5f1",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.addressables": "1.21.14"
+  },
+  "author": {
+    "name": "JungYeol Joo",
+    "email": "joojungyeol@gmail.com",
+    "url": "https://github.com/jjr2930/JLib"
+  }
+}
