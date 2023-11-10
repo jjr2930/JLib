@@ -11,3 +11,9 @@ Library/
 /*.sln
 /.vs
 /obj/
+/Samples~/ObjectPoolSamples/Logs/
+/Samples~/ObjectPoolSamples/Temp/
+/Samples~/ObjectPoolSamples/obj/
+/Samples~/ObjectPoolSamples/*.sln
+*.csproj
+*.vsconfig
