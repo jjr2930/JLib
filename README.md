@@ -1,4 +1,8 @@
 # JLib 자주 사용하는 기능들을 구현해놓음
+## 설치
+<img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step1.png"/>
+<img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step2.png"/>
+<img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step3.png"/>
 
 ## Tween
 <img width=600 height=400 src = "https://github.com/jjr2930/JLib/blob/master/Documentation~/Tween.gif?raw=true"/>
