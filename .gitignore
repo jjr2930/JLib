@@ -11,4 +11,4 @@ Library/
 /*.sln
 /.vs
 /obj/
-/*.meta
+*.meta
