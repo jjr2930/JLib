@@ -1,8 +1,8 @@
 {
   "name": "com.jungyeol.jlib",
   "version": "1.2.3",
-  "displayName": "Package Example",
-  "description": "This is an example package",
+  "displayName": "joojungyeol custom library",
+  "description": "there is useful things",
   "unity": "2022.3",
   "unityRelease": "5f1",
   "documentationUrl": "",
