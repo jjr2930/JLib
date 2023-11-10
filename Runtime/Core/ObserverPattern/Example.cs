@@ -1,55 +1,67 @@
 /*
  * 이것은 옵저버 패턴을 어떤식으로 구현해야 하는지에 대한 예제가 들어있는 파일이다.
  */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JLib.Core.ObserverPattern
+namespace Example
 {
-    public class SomeMemberChangedParemter : INoticeParameter
+    public class SomePublisher : MonoBehaviour
     {
-        public int value;
-    }
+        int intNumber;
+        string stringValue;
 
-    public class CustomObserver : Observer
-    {
-        public override void Notify(INoticeParameter paremter)
-        {
-            base.Notify(paremter);
-            Debug.Log("Custom observer notify called");
-        }
-    }
-
-    public class CustomPublisher : Publisher
-    {
-        int someMember;
-        public int SomeMember
-        {
-            get { return someMember; }
-            set 
+        public int IntNumber
+        { 
+            get
             {
-                someMember = value;
-                Notify(new SomeMemberChangedParemter()
+                return IntNumber;
+            }
+            set
+            {
+                intNumber = value;
+                OnIntValueChanged?.Invoke(value);
+            }
+        }
+        public string StringValue
+        {
+            get
+            {
+                return stringValue;
+            }
+            set
+            {
+                stringValue = value;
+                OnStringValueChanged?.Invoke(value);
+            }
+        }
+
+        public event Action<int> OnIntValueChanged;
+        public event Action<string> OnStringValueChanged;
+    }
+
+    public class ObserverA
+    {
+        public ObserverA()
+        {
+            SomePublisher somePublisher = UnityEngine.Object.FindObjectOfType<SomePublisher>();
+            if (null == somePublisher)
+                throw new NullReferenceException("somep publisher is not exist");
+
+            somePublisher.OnIntValueChanged +=
+                (changedValue) =>
                 {
-                    value = someMember
-                });
-            }
-        }
-    }
+                    Debug.Log($"int value changed! : {changedValue}");
+                };
 
-    public class Client 
-    {
-        public void SampleMethod(int someNumber)
-        {
-            var customPublisher = UnityEngine.Object.FindObjectOfType<CustomPublisher>();
-            if(null == customPublisher)
-            {
-                throw new NullReferenceException("there is no custom publisher");
-            }
-
-            customPublisher.SomeMember = someNumber;
+            somePublisher.OnStringValueChanged +=
+                (changedValue) =>
+                {
+                    Debug.Log($"string value changed! : {changedValue}");
+                };
         }
     }
 }
