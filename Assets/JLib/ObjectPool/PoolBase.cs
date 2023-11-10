@@ -65,11 +65,11 @@ namespace JLib.ObjectPool
 
                 var poolQueue = new Queue<GeneratedT>(item.generationCount);
                 var originInstance = CreateInstance(item.value);
-
+                originInstance.OnCreated();
                 for (int i = 0; i < item.generationCount - 1; i++)
                 {
                     var instance = InstantiateUsingInstance(originInstance);
-                    instance.OnReturned();
+                    originInstance.OnCreated();
                     poolQueue.Enqueue(instance);    
                 }
 

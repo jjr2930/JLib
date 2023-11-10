@@ -10,3 +10,4 @@ Library/
 /*.csproj
 /*.sln
 /.vs
+/obj/

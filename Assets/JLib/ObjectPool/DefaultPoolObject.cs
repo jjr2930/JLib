@@ -12,6 +12,12 @@ namespace JLib.ObjectPool
 
     public class DefaultPoolObject : PoolObject<DefaultKey>
     {
+        public override void OnCreated()
+        {
+            base.OnCreated();
+            gameObject.SetActive(false);
+        }
+        
         public override void OnPoped()
         {
             base.OnPoped();

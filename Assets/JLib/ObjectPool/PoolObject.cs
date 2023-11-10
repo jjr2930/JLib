@@ -17,6 +17,10 @@ namespace JLib.ObjectPool
         /// </summary>
         public KeyT key;
         /// <summary>
+        /// 처음 만들어졌을 때 할 행위
+        /// </summary>
+        public virtual void OnCreated() { }
+        /// <summary>
         /// 풀에서 나올 때 할 행위
         /// </summary>
         public virtual void OnPoped() { }
