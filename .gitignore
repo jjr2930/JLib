@@ -15,5 +15,8 @@ Library/
 /Samples~/ObjectPoolSamples/Temp/
 /Samples~/ObjectPoolSamples/obj/
 /Samples~/ObjectPoolSamples/*.sln
+/Samples~/ObjectPoolSamples/UserSettings/
 *.csproj
 *.vsconfig
+/Samples~/FSMSample/Temp/
+/Samples~/FSMSample/Logs/
