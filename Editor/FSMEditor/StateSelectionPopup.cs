@@ -9,7 +9,7 @@ namespace JLib.FSM.Editor
     public class StateSelectionWindow : UnityEditor.EditorWindow
     {
         public static Type selectedType;
-        public static List<Type> stateTypes;
+        public static List<Type> stateTypes = new List<Type>();
 
         Vector2 scrollPosition;
         Action<Type> onSelected;
