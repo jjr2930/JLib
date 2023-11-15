@@ -10,12 +10,16 @@ namespace JLib.FSM.Editor
     {
         public static Type selectedType;
         public static List<Type> stateTypes = new List<Type>();
-
+        public static StateSelectionWindow window = null;
         Vector2 scrollPosition;
         Action<Type> onSelected;
         public static void OpenWindow(int x, int y, int width, int height, Action<Type> callback)
         {
-            StateSelectionWindow window = ScriptableObject.CreateInstance<StateSelectionWindow>();
+            if (null == window)
+            {
+                window = ScriptableObject.CreateInstance<StateSelectionWindow>();
+            }
+
             window.onSelected = callback;
             window.position = new Rect(x, y, width, height);
             window.ShowPopup();
@@ -58,6 +62,11 @@ namespace JLib.FSM.Editor
                     }
                 }
                 scrollPosition = scrollViewScope.scrollPosition;
+            }
+
+            if(GUILayout.Button("Close"))
+            {
+                Close();
             }
         }
     }
