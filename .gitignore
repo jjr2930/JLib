@@ -20,3 +20,4 @@ Library/
 *.vsconfig
 /Samples~/FSMSample/Temp/
 /Samples~/FSMSample/Logs/
+*.dwlt
