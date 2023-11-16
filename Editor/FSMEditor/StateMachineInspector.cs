@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.UIElements;
+using System.Runtime.InteropServices;
 
 namespace JLib.FSM.Editor
 {
     [CustomEditor(typeof(StateMachine))]
     public class StateMachineInspector : UnityEditor.Editor
     {
+        GUILayoutOption centerLabelHeight = GUILayout.Height(30);
+
         Vector2 scrollPosition;
         
         Dictionary<State, UnityEditor.Editor> cachedStateEdtiorByObject
@@ -16,6 +20,9 @@ namespace JLib.FSM.Editor
         
         Dictionary<Transition, UnityEditor.Editor> cachedTransitionEditorByObject
             = new Dictionary<Transition, UnityEditor.Editor>();
+
+        Dictionary<TransitionEvent, UnityEditor.Editor> cachedTransitionEventEditorByObject
+            = new Dictionary<TransitionEvent, UnityEditor.Editor>();
 
         UnityEditor.Editor blackboardEditor;
 
@@ -39,6 +46,13 @@ namespace JLib.FSM.Editor
                 var transition = Script.GetTransition(i);
                 cachedTransitionEditorByObject[transition] = null;
             }
+
+            cachedTransitionEventEditorByObject.Clear();
+            for (int i = 0; i < Script.TransitionEventCount; i++)
+            {
+                var transitionEvent = Script.GetTransitionEvent(i);
+                cachedTransitionEventEditorByObject[transitionEvent] = null;
+            }
         }
 
         public override void OnInspectorGUI()
@@ -49,31 +63,94 @@ namespace JLib.FSM.Editor
             
             DrawStates();            
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            
+            DrawTransitionEvents();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             DrawTransitions();
         }
 
+        private void DrawTransitionEvents()
+        {
+            EditorGUILayout.LabelField("Transition Events", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight);
+            using (var verticalScope = new EditorGUILayout.VerticalScope())
+            {
+                var count = Script.TransitionEventCount;
+                for (int i = 0; i < count; i++)
+                {
+                    using (var horizontal = new EditorGUILayout.HorizontalScope())
+                    {
+                        var transitionEvent = Script.GetTransitionEvent(i);
+                        var cachedTransitionEventEditor = cachedTransitionEventEditorByObject[transitionEvent];
+                        CreateCachedEditor(transitionEvent, null, ref cachedTransitionEventEditor);
+                        cachedTransitionEventEditorByObject[transitionEvent] = cachedTransitionEventEditor;
+
+                        //cachedTransitionEventEditor.DrawHeader();
+                        cachedTransitionEventEditor.OnInspectorGUI();
+                        if (GUILayout.Button("-"))
+                        {
+                            var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
+                            if (result)
+                            {
+                                RemoveTransitionEvent(i);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(GUILayout.Button("Add Transition Event"))
+            {
+                AddTransitionEvent();
+            }    
+        }
+
+        void AddTransitionEvent()
+        {
+            var newTransitionEvent = CreateInstance<TransitionEvent>();
+            newTransitionEvent.name = "new Transition Event";
+            Script.AddTransitionEvent(newTransitionEvent);
+            cachedTransitionEventEditorByObject[newTransitionEvent] = null;
+
+            AddAsset(newTransitionEvent);
+        }
+
+        void RemoveTransitionEvent(int index)
+        {
+            var oldTransitionEvent = Script.GetTransitionEvent(index);
+            Script.RemoveTransitionEvent(oldTransitionEvent);
+            cachedTransitionEventEditorByObject.Remove(oldTransitionEvent);
+
+            RemoveAsset(oldTransitionEvent);
+        }
+
         private void DrawTransitions()
         {
+            EditorGUILayout.LabelField("Transitions", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight);
+
             using (var verticalScope = new EditorGUILayout.VerticalScope())
             {
                 var count = Script.TransitionCount;
                 for (int i = 0; i < count; i++)
                 {
-                    var transition = Script.GetTransition(i);
-                    var cachedTransitionEditor = cachedTransitionEditorByObject[transition];
-                    CreateCachedEditor(transition, null, ref cachedTransitionEditor);
-                    cachedTransitionEditorByObject[transition] = cachedTransitionEditor;
-
-                    cachedTransitionEditor.DrawHeader();
-                    cachedTransitionEditor.OnInspectorGUI();
-                    if(GUILayout.Button("-"))
+                    using (var horizontalScope = new EditorGUILayout.HorizontalScope())
                     {
-                        var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
-                        if(result)
+                        var transition = Script.GetTransition(i);
+                        var cachedTransitionEditor = cachedTransitionEditorByObject[transition];
+                        CreateCachedEditor(transition, null, ref cachedTransitionEditor);
+                        cachedTransitionEditorByObject[transition] = cachedTransitionEditor;
+
+                        //cachedTransitionEditor.DrawHeader();
+                        cachedTransitionEditor.OnInspectorGUI();
+                        if (GUILayout.Button("-"))
                         {
-                            RemoveTransition(i);
-                            return;
+                            var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
+                            if (result)
+                            {
+                                RemoveTransition(i);
+                                return;
+                            }
                         }
                     }
                 }
@@ -91,6 +168,7 @@ namespace JLib.FSM.Editor
             newTransition.name = "new Transition";
             Script.AddTransition(newTransition);
             cachedTransitionEditorByObject[newTransition] = null;
+            newTransition.StateMachine = Script;
 
             AddAsset(newTransition);
         }
@@ -106,6 +184,7 @@ namespace JLib.FSM.Editor
 
         private void DrawStates()
         {
+            EditorGUILayout.LabelField("States", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight); ;
             int stateCount = Script.StateCount;
             using (var scrollScope = new EditorGUILayout.ScrollViewScope(scrollPosition))
             {
@@ -143,9 +222,10 @@ namespace JLib.FSM.Editor
                     });
             }
         }
-        void AddState(Type State)
+        void AddState(Type stateType)
         {
-            var newState = ScriptableObject.CreateInstance(State) as State;
+            var newState = ScriptableObject.CreateInstance(stateType) as State;
+            newState.name = "new " + stateType.ToString();
             Script.AddState(newState);
             cachedStateEdtiorByObject.Add(newState, null);
 
@@ -160,9 +240,10 @@ namespace JLib.FSM.Editor
 
             RemoveAsset(oldState);
         }
-
+         
         private void DrawBlackbaord()
         {
+            EditorGUILayout.LabelField("Blackboard", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight); ;
             using (var blackboardHorizontalScope = new EditorGUILayout.HorizontalScope())
             {
                 Script.Blackboard = EditorGUILayout.ObjectField(Script.Blackboard, typeof(Blackboard), false, null) as Blackboard;
@@ -200,10 +281,10 @@ namespace JLib.FSM.Editor
         void RemoveAsset(UnityEngine.Object oldAsset)
         {
             AssetDatabase.RemoveObjectFromAsset(oldAsset);
+            DestroyImmediate(oldAsset);
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-
     }
 }

@@ -4,25 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace JLib.FSM
-{
-    
+{    
     public class Transition : ScriptableObject
     {
-        [Serializable]
-        public class Condition
-        {
-            [SerializeField] BlackboardValueBool boolValue;
-            [SerializeField] BlackboardValueInt intValue;
-            [SerializeField] BlackboardValueFloat floatValue;
-            [SerializeField] BlackboardValueString stringValue;
-        }
+        [SerializeField] StateMachine stateMachine;
 
-        [SerializeField] State from;
-        [SerializeField] State to;
+        public State from;
+        public State to;
+        public TransitionEvent transitionEvent;
 
-        //public bool OnUpdate()
-        //{
-
-        //}
+        public StateMachine StateMachine { get => stateMachine; set => stateMachine = value; }
     }
 }

@@ -16,7 +16,9 @@ namespace JLib.FSM
         [SerializeField, HideInInspector] List<State> states = new List<State>();
         [SerializeField, HideInInspector] List<Transition> transitions = new List<Transition>();
         [SerializeField, HideInInspector] bool isBlackboardFolded = false;
-        public int StateCount 
+        [SerializeField, HideInInspector] List<TransitionEvent> transitionEvents = new List<TransitionEvent>();
+
+        public int StateCount
         {
             get => states.Count; 
         }
@@ -25,6 +27,11 @@ namespace JLib.FSM
         { 
             get => transitions.Count; 
         }
+        public int TransitionEventCount
+        {
+            get => transitionEvents.Count;
+        }
+
         public Blackboard Blackboard
         {
             get => blackboard; 
@@ -81,6 +88,21 @@ namespace JLib.FSM
         public Transition GetTransition(int index)
         {
             return transitions[index];
+        }
+
+        public void AddTransitionEvent(TransitionEvent newEvent)
+        {
+            transitionEvents.Add(newEvent);
+        }
+
+        public void RemoveTransitionEvent(TransitionEvent oldEvent)
+        {
+            transitionEvents.Remove(oldEvent);
+        }
+
+        public TransitionEvent GetTransitionEvent(int index)
+        {
+            return transitionEvents[index];
         }
 
         public void OnEntered() { }
