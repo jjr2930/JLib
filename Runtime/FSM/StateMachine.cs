@@ -10,13 +10,19 @@ namespace JLib.FSM
     [CreateAssetMenu(menuName = "FSM/New State Machine")]
     public class StateMachine : ScriptableObject
     {
-        [SerializeField] Blackboard blackboard;
+        [SerializeField, HideInInspector] Blackboard blackboard;
         [SerializeField] State rootState = null;
 
         [SerializeField, HideInInspector] List<State> states = new List<State>();
         [SerializeField, HideInInspector] List<Transition> transitions = new List<Transition>();
         [SerializeField, HideInInspector] bool isBlackboardFolded = false;
         [SerializeField, HideInInspector] List<TransitionEvent> transitionEvents = new List<TransitionEvent>();
+
+        public State CurrentState
+        {
+            get; 
+            set;
+        }
 
         public int StateCount
         {
@@ -105,8 +111,17 @@ namespace JLib.FSM
             return transitionEvents[index];
         }
 
-        public void OnEntered() { }
-        public void OnUpdate() { }
-        public void OnExit() { }
+        public void OnEntered() 
+        {
+            CurrentState.OnEntered();
+        }
+        public void OnUpdate()
+        {
+            CurrentState.OnUpdate();
+        }
+        public void OnExit() 
+        {
+            CurrentState.OnExit();
+        }
     }
 }

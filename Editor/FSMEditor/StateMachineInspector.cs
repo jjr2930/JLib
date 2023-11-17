@@ -5,26 +5,45 @@ using UnityEditor;
 using System;
 using UnityEngine.UIElements;
 using System.Runtime.InteropServices;
+using UnityEngine.AI;
 
 namespace JLib.FSM.Editor
 {
     [CustomEditor(typeof(StateMachine))]
     public class StateMachineInspector : UnityEditor.Editor
     {
-        GUILayoutOption centerLabelHeight = GUILayout.Height(30);
-
         Vector2 scrollPosition;
-        
+
         Dictionary<State, UnityEditor.Editor> cachedStateEdtiorByObject
             = new Dictionary<State, UnityEditor.Editor>();
-        
+
         Dictionary<Transition, UnityEditor.Editor> cachedTransitionEditorByObject
             = new Dictionary<Transition, UnityEditor.Editor>();
 
         Dictionary<TransitionEvent, UnityEditor.Editor> cachedTransitionEventEditorByObject
             = new Dictionary<TransitionEvent, UnityEditor.Editor>();
 
+        GUIStyle BigCenterWhiteLabel
+        {
+            get
+            {
+                var style = new GUIStyle("WhiteLargeCenterLabel");
+                style.fontSize = 50;
+                style.stretchHeight = true;
+                return style;
+            }
+        }
+
+
+        GUILayoutOption centerLabelHeight = GUILayout.Height(50);
+        float sectionSpaceHeight = 20f;
+
         UnityEditor.Editor blackboardEditor;
+
+        bool isStatesFolded;
+        bool isTransitionsFolded;
+        bool isTransitionEventFolded;
+        Stack<Color> colorStack = null;
 
         public StateMachine Script
         {
@@ -53,57 +72,83 @@ namespace JLib.FSM.Editor
                 var transitionEvent = Script.GetTransitionEvent(i);
                 cachedTransitionEventEditorByObject[transitionEvent] = null;
             }
+
+            colorStack = new Stack<Color>();
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            DrawBlackbaord();
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            
-            DrawStates();            
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            
-            DrawTransitionEvents();
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-            DrawTransitions();
+            //using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                DrawBlackbaord();
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                DrawStates();
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                DrawTransitionEvents();
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                DrawTransitions();
+            }
         }
 
         private void DrawTransitionEvents()
         {
-            EditorGUILayout.LabelField("Transition Events", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight);
-            using (var verticalScope = new EditorGUILayout.VerticalScope())
+            colorStack.Push(GUI.color);
+            GUI.color = Color.red;
+            using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                var count = Script.TransitionEventCount;
-                for (int i = 0; i < count; i++)
-                {
-                    using (var horizontal = new EditorGUILayout.HorizontalScope())
-                    {
-                        var transitionEvent = Script.GetTransitionEvent(i);
-                        var cachedTransitionEventEditor = cachedTransitionEventEditorByObject[transitionEvent];
-                        CreateCachedEditor(transitionEvent, null, ref cachedTransitionEventEditor);
-                        cachedTransitionEventEditorByObject[transitionEvent] = cachedTransitionEventEditor;
+                GUI.color = colorStack.Pop();
 
-                        //cachedTransitionEventEditor.DrawHeader();
-                        cachedTransitionEventEditor.OnInspectorGUI();
-                        if (GUILayout.Button("-"))
+                EditorGUILayout.Space(sectionSpaceHeight);
+                EditorGUILayout.LabelField("Transition Events", BigCenterWhiteLabel, centerLabelHeight);
+                EditorGUILayout.Space(sectionSpaceHeight);
+
+                var buttonString = (isTransitionEventFolded) ? "Fold" : "Unfold";
+                if (GUILayout.Button(buttonString))
+                {
+                    isTransitionEventFolded = !isTransitionEventFolded;
+                }
+
+                if (isTransitionEventFolded)
+                {
+                    using (var verticalScope2 = new EditorGUILayout.VerticalScope())
+                    {
+                        var count = Script.TransitionEventCount;
+                        for (int i = 0; i < count; i++)
                         {
-                            var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
-                            if (result)
+                            using (var horizontal = new EditorGUILayout.HorizontalScope())
                             {
-                                RemoveTransitionEvent(i);
-                                return;
+                                var transitionEvent = Script.GetTransitionEvent(i);
+                                var cachedTransitionEventEditor = cachedTransitionEventEditorByObject[transitionEvent];
+                                CreateCachedEditor(transitionEvent, null, ref cachedTransitionEventEditor);
+                                cachedTransitionEventEditorByObject[transitionEvent] = cachedTransitionEventEditor;
+
+                                //cachedTransitionEventEditor.DrawHeader();
+                                cachedTransitionEventEditor.OnInspectorGUI();
+                                if (GUILayout.Button("-"))
+                                {
+                                    var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
+                                    if (result)
+                                    {
+                                        RemoveTransitionEvent(i);
+                                        return;
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
 
-            if(GUILayout.Button("Add Transition Event"))
-            {
-                AddTransitionEvent();
-            }    
+                    if (GUILayout.Button("Add Transition Event"))
+                    {
+                        AddTransitionEvent();
+                    }
+                }
+                EditorGUILayout.Space(sectionSpaceHeight);
+            }
         }
 
         void AddTransitionEvent()
@@ -127,38 +172,59 @@ namespace JLib.FSM.Editor
 
         private void DrawTransitions()
         {
-            EditorGUILayout.LabelField("Transitions", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight);
+            colorStack.Push(GUI.color);
+            GUI.color = Color.red;
 
-            using (var verticalScope = new EditorGUILayout.VerticalScope())
+            using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                var count = Script.TransitionCount;
-                for (int i = 0; i < count; i++)
-                {
-                    using (var horizontalScope = new EditorGUILayout.HorizontalScope())
-                    {
-                        var transition = Script.GetTransition(i);
-                        var cachedTransitionEditor = cachedTransitionEditorByObject[transition];
-                        CreateCachedEditor(transition, null, ref cachedTransitionEditor);
-                        cachedTransitionEditorByObject[transition] = cachedTransitionEditor;
+                GUI.color = colorStack.Pop();
 
-                        //cachedTransitionEditor.DrawHeader();
-                        cachedTransitionEditor.OnInspectorGUI();
-                        if (GUILayout.Button("-"))
+                EditorGUILayout.Space(sectionSpaceHeight);
+                EditorGUILayout.LabelField("Transitions", BigCenterWhiteLabel, centerLabelHeight);
+                EditorGUILayout.Space(sectionSpaceHeight);
+
+                var buttonString = (isTransitionsFolded) ? "Fold" : "Unfold";
+                if (GUILayout.Button(buttonString))
+                {
+                    isTransitionsFolded = !isTransitionsFolded;
+                }
+
+                if (isTransitionsFolded)
+                {
+                    using (var verticalScope2 = new EditorGUILayout.VerticalScope())
+                    {
+                        var count = Script.TransitionCount;
+                        for (int i = 0; i < count; i++)
                         {
-                            var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
-                            if (result)
+                            using (var horizontalScope = new EditorGUILayout.HorizontalScope())
                             {
-                                RemoveTransition(i);
-                                return;
+                                var transition = Script.GetTransition(i);
+                                var cachedTransitionEditor = cachedTransitionEditorByObject[transition];
+                                CreateCachedEditor(transition, null, ref cachedTransitionEditor);
+                                cachedTransitionEditorByObject[transition] = cachedTransitionEditor;
+
+                                //cachedTransitionEditor.DrawHeader();
+                                cachedTransitionEditor.OnInspectorGUI();
+                                if (GUILayout.Button("-"))
+                                {
+                                    var result = EditorUtility.DisplayDialog("Warnning", "Are sure?", "Yes", "No");
+                                    if (result)
+                                    {
+                                        RemoveTransition(i);
+                                        return;
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
 
-            if(GUILayout.Button("Add Transition"))
-            {
-                AddTransition();
+                    if (GUILayout.Button("Add Transition"))
+                    {
+                        AddTransition();
+                    }
+                }
+
+                EditorGUILayout.Space(sectionSpaceHeight);
             }
         }
 
@@ -184,48 +250,78 @@ namespace JLib.FSM.Editor
 
         private void DrawStates()
         {
-            EditorGUILayout.LabelField("States", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight); ;
-            int stateCount = Script.StateCount;
-            using (var scrollScope = new EditorGUILayout.ScrollViewScope(scrollPosition))
+            colorStack.Push(GUI.color);
+            GUI.color = Color.red;
+            using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                using (var verticalScope = new EditorGUILayout.VerticalScope())
-                {
-                    for (int i = 0; i < stateCount; i++)
-                    {
-                        var state = Script.GetState(i);                        
-                        UnityEditor.Editor cachedStateEditor = cachedStateEdtiorByObject[state];
-                        CreateCachedEditor(state, null, ref cachedStateEditor);
-                        cachedStateEdtiorByObject[state] = cachedStateEditor;
-                        cachedStateEditor.DrawHeader();
-                        cachedStateEditor.DrawDefaultInspector();
+                EditorGUILayout.Space(sectionSpaceHeight);
+                GUI.color = colorStack.Pop();
 
-                        if (GUILayout.Button("-"))
+                EditorGUILayout.LabelField("States", BigCenterWhiteLabel, centerLabelHeight); ;
+                EditorGUILayout.Space(sectionSpaceHeight);
+
+                var buttonString = (isStatesFolded) ? "Fold" : "Unfold";
+                if (GUILayout.Button(buttonString))
+                {
+                    isStatesFolded = !isStatesFolded;
+                }
+
+                if (isStatesFolded)
+                {
+                    int stateCount = Script.StateCount;
+                    using (var scrollScope = new EditorGUILayout.ScrollViewScope(scrollPosition))
+                    {
+                        using (var verticalScope2 = new EditorGUILayout.VerticalScope())
                         {
-                            RemoveState(i);
-                            return;
-                        }
-                        if (GUILayout.Button("To rootState"))
-                        {
-                            Script.SetRootState(state);
+                            for (int i = 0; i < stateCount; i++)
+                            {
+                                var state = Script.GetState(i);
+                                colorStack.Push(GUI.color);
+                                if (Script.GetRootState() == state)
+                                {
+                                    GUI.color = new Color(0.75f, 1f, 0.75f, 1f);
+                                }
+
+                                UnityEditor.Editor cachedStateEditor = cachedStateEdtiorByObject[state];
+                                CreateCachedEditor(state, null, ref cachedStateEditor);
+                                cachedStateEdtiorByObject[state] = cachedStateEditor;
+                                cachedStateEditor.DrawHeader();
+                                cachedStateEditor.DrawDefaultInspector();
+
+                                if (GUILayout.Button("-"))
+                                {
+                                    RemoveState(i);
+                                    return;
+                                }
+                                if (GUILayout.Button("To rootState"))
+                                {
+                                    Script.SetRootState(state);
+                                }
+
+                                GUI.color = colorStack.Pop();
+                            }
                         }
                     }
+
+                    if (GUILayout.Button("Add State"))
+                    {
+                        var mousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+                        StateSelectionWindow.OpenWindow((int)mousePosition.x, (int)mousePosition.y, 400, 500,
+                            (selectedType) =>
+                            {
+                                AddState(selectedType);
+                            });
+                    }
                 }
+                EditorGUILayout.Space(sectionSpaceHeight);
             }
 
-            if (GUILayout.Button("Add State"))
-            {
-                var mousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
-                StateSelectionWindow.OpenWindow((int)mousePosition.x, (int)mousePosition.y, 400, 500,
-                    (selectedType) =>
-                    {
-                        AddState(selectedType);
-                    });
-            }
         }
         void AddState(Type stateType)
         {
             var newState = ScriptableObject.CreateInstance(stateType) as State;
             newState.name = "new " + stateType.ToString();
+            newState.ParentStateMachine = Script;
             Script.AddState(newState);
             cachedStateEdtiorByObject.Add(newState, null);
 
@@ -240,33 +336,44 @@ namespace JLib.FSM.Editor
 
             RemoveAsset(oldState);
         }
-         
+
         private void DrawBlackbaord()
         {
-            EditorGUILayout.LabelField("Blackboard", new GUIStyle("WhiteLargeCenterLabel"), centerLabelHeight); ;
-            using (var blackboardHorizontalScope = new EditorGUILayout.HorizontalScope())
+            colorStack.Push(GUI.color);
+            GUI.color = Color.red;
+            using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                Script.Blackboard = EditorGUILayout.ObjectField(Script.Blackboard, typeof(Blackboard), false, null) as Blackboard;
-                var buttonText = (Script.IsBlackboardFolded) ? "Unfold" : "Fold";
-                if (GUILayout.Button(buttonText, GUILayout.Width(100)))
+                GUI.color = colorStack.Pop();
+                EditorGUILayout.Space(sectionSpaceHeight);
+                EditorGUILayout.LabelField("Blackboard", BigCenterWhiteLabel, centerLabelHeight); ;
+                EditorGUILayout.Space(sectionSpaceHeight);
+
+                using (var blackboardHorizontalScope = new EditorGUILayout.HorizontalScope())
                 {
-                    Script.IsBlackboardFolded = !Script.IsBlackboardFolded;
-                }
-            }
-            if (Script.Blackboard != null)
-            {
-                if (!Script.IsBlackboardFolded)
-                {
-                    CreateCachedEditor(Script.Blackboard, typeof(BlackboardInspector), ref blackboardEditor);
-                    if (null != blackboardEditor)
+                    Script.Blackboard = EditorGUILayout.ObjectField(Script.Blackboard, typeof(Blackboard), false, null) as Blackboard;
+                    var buttonText = (Script.IsBlackboardFolded) ? "Unfold" : "Fold";
+                    if (GUILayout.Button(buttonText, GUILayout.Width(100)))
                     {
-                        using (var blackboardVerticalScope = new EditorGUILayout.VerticalScope())
+                        Script.IsBlackboardFolded = !Script.IsBlackboardFolded;
+                    }
+                }
+                if (Script.Blackboard != null)
+                {
+                    if (!Script.IsBlackboardFolded)
+                    {
+                        CreateCachedEditor(Script.Blackboard, typeof(BlackboardInspector), ref blackboardEditor);
+                        if (null != blackboardEditor)
                         {
-                            blackboardEditor.DrawHeader();
-                            blackboardEditor.OnInspectorGUI();
+                            using (var blackboardVerticalScope = new EditorGUILayout.VerticalScope())
+                            {
+                                blackboardEditor.DrawHeader();
+                                blackboardEditor.OnInspectorGUI();
+                            }
                         }
                     }
                 }
+
+                EditorGUILayout.Space(sectionSpaceHeight);
             }
         }
 

@@ -56,8 +56,15 @@ namespace JLib.FSM.Editor
                 }
             }
 
-            index = EditorGUILayout.Popup(index, TransitionEventNames.ToArray());
-            Script.transitionEvent = Script.StateMachine.GetTransitionEvent(index);            
+            if (TransitionEventNames.Count == 0)
+            {
+                EditorGUILayout.LabelField("There is no transition events..");
+            }
+            else
+            {
+                index = EditorGUILayout.Popup(index, TransitionEventNames.ToArray());
+                Script.transitionEvent = Script.StateMachine.GetTransitionEvent(index);
+            }
         }
 
         int FindTransitionEventIndexByName(TransitionEvent transitionEvent, List<string> names)
