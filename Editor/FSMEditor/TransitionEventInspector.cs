@@ -22,11 +22,14 @@ namespace JLib.FSM.Editor
                     GUI.enabled = false == Script.IsLocked;
                     {
                         Script.name = EditorGUILayout.TextField(Script.name);
-                        Script.Value = EditorGUILayout.IntField(Script.Value);
                     }
                     GUI.enabled = true;
                     Script.IsLocked = EditorGUILayout.Toggle(Script.IsLocked, GUILayout.Width(50));
-                   
+                    GUIContent labelContent = new GUIContent("Copy", "Copy to clipboard");
+                    if (GUILayout.Button(labelContent))
+                    {
+                        GUIUtility.systemCopyBuffer = Script.name;
+                    }                   
                 }
 
                 if(changeScope.changed)

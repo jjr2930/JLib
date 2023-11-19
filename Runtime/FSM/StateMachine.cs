@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace JLib.FSM
 {
     [CreateAssetMenu(menuName = "FSM/New State Machine")]
-    public class StateMachine : ScriptableObject
+    public sealed class StateMachine : ScriptableObject
     {
         [SerializeField, HideInInspector] Blackboard blackboard;
         [SerializeField] State rootState = null;
@@ -17,7 +17,7 @@ namespace JLib.FSM
         [SerializeField, HideInInspector] List<Transition> transitions = new List<Transition>();
         [SerializeField, HideInInspector] bool isBlackboardFolded = false;
         [SerializeField, HideInInspector] List<TransitionEvent> transitionEvents = new List<TransitionEvent>();
-
+        
         public State CurrentState
         {
             get; 
@@ -47,6 +47,11 @@ namespace JLib.FSM
         { 
             get => isBlackboardFolded; 
             set => isBlackboardFolded = value; 
+        }
+        public StateMachineRunner Owner 
+        {
+            get; 
+            set; 
         }
 
         public void SetRootState(State state) 
@@ -113,15 +118,15 @@ namespace JLib.FSM
 
         public void OnEntered() 
         {
-            CurrentState.OnEntered();
+            CurrentState.OnEntered(Owner);
         }
         public void OnUpdate()
         {
-            CurrentState.OnUpdate();
+            CurrentState.OnUpdate(Owner);
         }
         public void OnExit() 
         {
-            CurrentState.OnExit();
+            CurrentState.OnExit(Owner);
         }
     }
 }

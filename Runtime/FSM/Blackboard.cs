@@ -1,4 +1,3 @@
-using JLib.FSN;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,7 +70,7 @@ namespace JLib.FSM
             }
         }
 
-        public BlackboardValue GetValue(int index)
+        public BlackboardValue GetValueByIndex(int index)
         {
             return values[index];
         }

@@ -25,7 +25,7 @@ namespace JLib.FSM.Editor
                         using (var horizontalScope = new EditorGUILayout.HorizontalScope("AvatarMappingBox"))
                         {
                             UnityEditor.Editor editor = null;
-                            var blackboardValue = Script.GetValue(i);
+                            var blackboardValue = Script.GetValueByIndex(i);
                             if (false == cachedEditorByValue.TryGetValue(blackboardValue, out editor))
                             {
                                 cachedEditorByValue[blackboardValue] = null;
@@ -72,6 +72,11 @@ namespace JLib.FSM.Editor
                     AddValue<BlackboardValueString>();
                 }
 
+                if(GUILayout.Button("Add Vector3"))
+                {
+                    AddValue<BlackboardValueVector3>();
+                }
+
                 serializedObject.ApplyModifiedProperties();
                 serializedObject.Update();
 
@@ -95,6 +100,8 @@ namespace JLib.FSM.Editor
             else if (valueType == typeof(BlackboardValueString))
                 return typeof(BlackboardValueStringInspector);
 
+            else if (valueType == typeof(BlackboardValueVector3))
+                return typeof(BlackboardValueVector3Inspector);
             return null;
         }
         void AddValue<T>() where T : BlackboardValue
@@ -110,7 +117,7 @@ namespace JLib.FSM.Editor
 
         void RemoveElement(int index)
         {
-            var oldValue = Script.GetValue(index);
+            var oldValue = Script.GetValueByIndex(index);
             Script.RemoveValue(oldValue);
             AssetDatabase.RemoveObjectFromAsset(oldValue);
             EditorUtility.SetDirty(this);

@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace JLib.FSM
 {
-    public interface ISettable<T>
+    public class BlackboardValueVector3 : 
+        BlackboardValueTemplate<Vector3>
     {
-        T GetValue();
-        void SetValue(T value);
     }
 }

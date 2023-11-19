@@ -321,7 +321,6 @@ namespace JLib.FSM.Editor
         {
             var newState = ScriptableObject.CreateInstance(stateType) as State;
             newState.name = "new " + stateType.ToString();
-            newState.ParentStateMachine = Script;
             Script.AddState(newState);
             cachedStateEdtiorByObject.Add(newState, null);
 

@@ -9,11 +9,13 @@ namespace JLib.FSM
     public class StateMachineRunner : MonoBehaviour
     {
         [SerializeField] StateMachine rootStateMachine;
-        [SerializeField] StateMachine runtimeStateMachine;
+        [SerializeField, HideInInspector] StateMachine runtimeStateMachine;
 
         private void Start()
         {
             runtimeStateMachine = Instantiate(rootStateMachine);
+            runtimeStateMachine.Owner = this;
+            runtimeStateMachine.Blackboard.Init();
             runtimeStateMachine.CurrentState = runtimeStateMachine.GetRootState();
             runtimeStateMachine.OnEntered();            
         }
@@ -28,18 +30,19 @@ namespace JLib.FSM
             runtimeStateMachine.OnExit();
         }
 
-        public void PushEvent(int eventNumber)
+        public void PushEvent(int index)
         {
             var transitionCount = runtimeStateMachine.TransitionCount;
+            var eventName = runtimeStateMachine.GetTransitionEvent(index).name;
             for (int i = 0; i < transitionCount; ++i)
             {
                 var transition = runtimeStateMachine.GetTransition(i);
                 if(runtimeStateMachine.CurrentState == transition.from
-                    && transition.transitionEvent.Value == eventNumber)
+                    && transition.transitionEvent.name == eventName)
                 {
-                    runtimeStateMachine.CurrentState.OnExit();
+                    runtimeStateMachine.CurrentState.OnExit(this);
                     runtimeStateMachine.CurrentState = transition.to;
-                    runtimeStateMachine.CurrentState.OnEntered();
+                    runtimeStateMachine.CurrentState.OnEntered(this);
                 }
             }
         }
@@ -53,9 +56,9 @@ namespace JLib.FSM
                 if (runtimeStateMachine.CurrentState == transition.from
                     && transition.transitionEvent.name == eventName)
                 {
-                    runtimeStateMachine.CurrentState.OnExit();
+                    runtimeStateMachine.CurrentState.OnExit(this);
                     runtimeStateMachine.CurrentState = transition.to;
-                    runtimeStateMachine.CurrentState.OnEntered();
+                    runtimeStateMachine.CurrentState.OnEntered(this);
                 }
             }
         }
@@ -68,6 +71,21 @@ namespace JLib.FSM
         public T GetBlackboardValue<T>(string name)
         {
             return runtimeStateMachine.Blackboard.GetValue<T>(name);
+        }
+
+        public int GetEventIndex(string eventName)
+        {
+            var eventCount = runtimeStateMachine.TransitionEventCount;
+            for (int i = 0; i < eventCount; i++)
+            {
+                if(runtimeStateMachine.GetTransitionEvent(i).name == eventName)
+                {
+                    return i;
+                }
+            }
+
+            //not found exception?
+            return -1;
         }
     }
 }
