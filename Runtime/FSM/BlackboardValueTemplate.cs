@@ -1,21 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace JLib.FSM
 {
-    public class BlackboardValueTemplate<T> : BlackboardValue , ISettable<T>   
+    public class BlackboardValueTemplate<T> : BlackboardValue, ISettable<T>
     {
         [SerializeField] protected T value;
-        
+        [SerializeField, HideInInspector] protected T runtimeValue;
+
         public void SetValue(T value)
         {
-            this.value = value;
+            if (Application.isPlaying)
+                runtimeValue = value;
+            else
+                this.value = value;
         }
 
         public T GetValue()
         {
-            return this.value;
+            if (Application.isPlaying)
+                return runtimeValue;
+            else
+                return this.value;
         }
     }
 }

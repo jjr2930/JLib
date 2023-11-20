@@ -8,77 +8,79 @@ namespace JLib.FSM
 {
     public class StateMachineRunner : MonoBehaviour
     {
-        [SerializeField] StateMachine rootStateMachine;
-        [SerializeField, HideInInspector] StateMachine runtimeStateMachine;
+        [SerializeField] StateMachine stateMachine;
+
+        public StateMachine StateMachine 
+        { 
+            get => stateMachine; 
+            set => stateMachine = value; 
+        }
 
         private void Start()
         {
-            runtimeStateMachine = Instantiate(rootStateMachine);
-            runtimeStateMachine.Owner = this;
-            runtimeStateMachine.Blackboard.Init();
-            runtimeStateMachine.CurrentState = runtimeStateMachine.GetRootState();
-            runtimeStateMachine.OnEntered();            
+            stateMachine.Owner = this;
+            stateMachine.OnEntered();            
         }
 
         private void Update()
         {
-            runtimeStateMachine.OnUpdate();
+            stateMachine.OnUpdate();
         }
 
         private void OnDestroy() 
         {
-            runtimeStateMachine.OnExit();
+            stateMachine.OnExit();
         }
 
         public void PushEvent(int index)
         {
-            var transitionCount = runtimeStateMachine.TransitionCount;
-            var eventName = runtimeStateMachine.GetTransitionEvent(index).name;
+            var transitionCount = stateMachine.TransitionCount;
+            var eventName = stateMachine.GetTransitionEvent(index).name;
             for (int i = 0; i < transitionCount; ++i)
             {
-                var transition = runtimeStateMachine.GetTransition(i);
-                if(runtimeStateMachine.CurrentState == transition.from
+                var transition = stateMachine.GetTransition(i);
+                if(stateMachine.CurrentState == transition.from
                     && transition.transitionEvent.name == eventName)
                 {
-                    runtimeStateMachine.CurrentState.OnExit(this);
-                    runtimeStateMachine.CurrentState = transition.to;
-                    runtimeStateMachine.CurrentState.OnEntered(this);
+                    stateMachine.CurrentState.OnExit(this);
+                    stateMachine.CurrentState = transition.to;
+                    stateMachine.CurrentState.OnEntered(this);
                 }
             }
         }
 
         public void PushEvent(string eventName)
         {
-            var transitionCount = runtimeStateMachine.TransitionCount;
+            var transitionCount = stateMachine.TransitionCount;
             for (int i = 0; i < transitionCount; ++i)
             {
-                var transition = runtimeStateMachine.GetTransition(i);
-                if (runtimeStateMachine.CurrentState == transition.from
+                var transition = stateMachine.GetTransition(i);
+                if (stateMachine.CurrentState == transition.from
                     && transition.transitionEvent.name == eventName)
                 {
-                    runtimeStateMachine.CurrentState.OnExit(this);
-                    runtimeStateMachine.CurrentState = transition.to;
-                    runtimeStateMachine.CurrentState.OnEntered(this);
+                    stateMachine.CurrentState.OnExit(this);
+                    stateMachine.CurrentState = transition.to;
+                    stateMachine.CurrentState.OnEntered(this);
                 }
             }
         }
 
         public void SetBlackboardValue<T>(string name, T value)
         {
-            runtimeStateMachine.Blackboard.SetValue<T>(name, value);
+            stateMachine.Blackboard.SetValue<T>(name, value);
         }
 
         public T GetBlackboardValue<T>(string name)
         {
-            return runtimeStateMachine.Blackboard.GetValue<T>(name);
+            return stateMachine.Blackboard.GetValue<T>(name);
         }
 
         public int GetEventIndex(string eventName)
         {
-            var eventCount = runtimeStateMachine.TransitionEventCount;
+            var eventCount = stateMachine.TransitionEventCount;
             for (int i = 0; i < eventCount; i++)
             {
-                if(runtimeStateMachine.GetTransitionEvent(i).name == eventName)
+                if(stateMachine.GetTransitionEvent(i).name == eventName)
                 {
                     return i;
                 }

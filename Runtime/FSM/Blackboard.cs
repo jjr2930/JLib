@@ -4,7 +4,7 @@ using UnityEngine;
 namespace JLib.FSM
 {
     [CreateAssetMenu(menuName ="FSM/Black board")]
-    public class Blackboard : ScriptableObject
+    public class Blackboard :ScriptableObject
     {
         [SerializeField] List<BlackboardValue> values = new List<BlackboardValue>();
 
@@ -61,15 +61,6 @@ namespace JLib.FSM
             valueObject.SetValue(value);
         }
 
-        public void Init()
-        {
-            valueByHash.Clear();
-            foreach (var value in values)
-            {
-                valueByHash.Add(value.name.GetHashCode(), value);
-            }
-        }
-
         public BlackboardValue GetValueByIndex(int index)
         {
             return values[index];
@@ -88,6 +79,16 @@ namespace JLib.FSM
         public void RemoveValue(int index)
         {
             values.RemoveAt(index);
+        }
+
+        public void OnEnable()
+        {
+            Debug.Log("Blackboard OnEnable");
+            valueByHash.Clear();
+            foreach (var value in values)
+            {
+                valueByHash.Add(value.name.GetHashCode(), value);
+            }
         }
     }
 }

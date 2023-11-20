@@ -52,6 +52,10 @@ namespace JLib.FSM.Editor
 
         private void OnEnable()
         {
+            //Debug.Log("StateMachineInspector OnEnable");
+            if (null == Script)
+                return;
+
             cachedStateEdtiorByObject.Clear();
             for (int i = 0; i < Script.StateCount; i++)
             {
@@ -277,7 +281,11 @@ namespace JLib.FSM.Editor
                             {
                                 var state = Script.GetState(i);
                                 colorStack.Push(GUI.color);
-                                if (Script.GetRootState() == state)
+                                if(Script.CurrentState == state)
+                                {
+                                    GUI.color = new Color(0.75f, 0.75f, 1f, 1f);
+                                }
+                                else if (Script.GetRootState() == state)
                                 {
                                     GUI.color = new Color(0.75f, 1f, 0.75f, 1f);
                                 }

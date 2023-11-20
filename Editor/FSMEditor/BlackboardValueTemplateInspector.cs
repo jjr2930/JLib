@@ -24,7 +24,7 @@ namespace JLib.FSM.Editor
                             AssetDatabase.Refresh();
                         }
                     }
-                    var valueProperty = serializedObject.FindProperty("value");
+                    var valueProperty = (Application.isPlaying) ? serializedObject.FindProperty("runtimeValue") : serializedObject.FindProperty("value");
                     EditorGUILayout.PropertyField(valueProperty,new GUIContent(""));
                     serializedObject.ApplyModifiedProperties();
                     serializedObject.Update();
