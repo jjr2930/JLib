@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace JLib.FSM
 {
-    public class BlackboardValueTemplate<T> : BlackboardValue, ISettable<T>
+    public class StateMachineValueTemplate<T> : StateMachineValue, ISettable<T>
     {
         [SerializeField] protected T value;
         [SerializeField, HideInInspector] protected T runtimeValue;

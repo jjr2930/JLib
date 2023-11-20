@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace JLib.FSM
 {
-    public class BlackboardValueString : BlackboardValueTemplate<string>
+    [Serializable]
+    public class StateMachineValue : ScriptableObject
     {
     }
 }

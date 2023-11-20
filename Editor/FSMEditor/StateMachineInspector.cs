@@ -6,6 +6,7 @@ using System;
 using UnityEngine.UIElements;
 using System.Runtime.InteropServices;
 using UnityEngine.AI;
+using System.Net.Http.Headers;
 
 namespace JLib.FSM.Editor
 {
@@ -22,6 +23,9 @@ namespace JLib.FSM.Editor
 
         Dictionary<TransitionEvent, UnityEditor.Editor> cachedTransitionEventEditorByObject
             = new Dictionary<TransitionEvent, UnityEditor.Editor>();
+
+        Dictionary<StateMachineValue, UnityEditor.Editor> cachedBlackboardValueEditorByObject
+            = new Dictionary<StateMachineValue, UnityEditor.Editor>();
 
         GUIStyle BigCenterWhiteLabel
         {
@@ -107,9 +111,7 @@ namespace JLib.FSM.Editor
             {
                 GUI.color = colorStack.Pop();
 
-                EditorGUILayout.Space(sectionSpaceHeight);
-                EditorGUILayout.LabelField("Transition Events", BigCenterWhiteLabel, centerLabelHeight);
-                EditorGUILayout.Space(sectionSpaceHeight);
+                DrawSectionTitle("Transition Events");
 
                 var buttonString = (isTransitionEventFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
@@ -183,9 +185,7 @@ namespace JLib.FSM.Editor
             {
                 GUI.color = colorStack.Pop();
 
-                EditorGUILayout.Space(sectionSpaceHeight);
-                EditorGUILayout.LabelField("Transitions", BigCenterWhiteLabel, centerLabelHeight);
-                EditorGUILayout.Space(sectionSpaceHeight);
+                DrawSectionTitle("Transitions");
 
                 var buttonString = (isTransitionsFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
@@ -258,11 +258,9 @@ namespace JLib.FSM.Editor
             GUI.color = Color.red;
             using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUILayout.Space(sectionSpaceHeight);
                 GUI.color = colorStack.Pop();
 
-                EditorGUILayout.LabelField("States", BigCenterWhiteLabel, centerLabelHeight); ;
-                EditorGUILayout.Space(sectionSpaceHeight);
+                DrawSectionTitle("States");
 
                 var buttonString = (isStatesFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
@@ -281,7 +279,7 @@ namespace JLib.FSM.Editor
                             {
                                 var state = Script.GetState(i);
                                 colorStack.Push(GUI.color);
-                                if(Script.CurrentState == state)
+                                if (Script.CurrentState == state)
                                 {
                                     GUI.color = new Color(0.75f, 0.75f, 1f, 1f);
                                 }
@@ -351,37 +349,105 @@ namespace JLib.FSM.Editor
             using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 GUI.color = colorStack.Pop();
-                EditorGUILayout.Space(sectionSpaceHeight);
-                EditorGUILayout.LabelField("Blackboard", BigCenterWhiteLabel, centerLabelHeight); ;
-                EditorGUILayout.Space(sectionSpaceHeight);
+                DrawSectionTitle("Blackboard");
 
-                using (var blackboardHorizontalScope = new EditorGUILayout.HorizontalScope())
+                var buttonText = (Script.IsBlackboardFolded) ? "Unfold" : "Fold";
+                if (GUILayout.Button(buttonText))
                 {
-                    Script.Blackboard = EditorGUILayout.ObjectField(Script.Blackboard, typeof(Blackboard), false, null) as Blackboard;
-                    var buttonText = (Script.IsBlackboardFolded) ? "Unfold" : "Fold";
-                    if (GUILayout.Button(buttonText, GUILayout.Width(100)))
-                    {
-                        Script.IsBlackboardFolded = !Script.IsBlackboardFolded;
-                    }
+                    Script.IsBlackboardFolded = !Script.IsBlackboardFolded;
                 }
-                if (Script.Blackboard != null)
+
+                if (!Script.IsBlackboardFolded)
                 {
-                    if (!Script.IsBlackboardFolded)
+                    using (var valuesVerticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
                     {
-                        CreateCachedEditor(Script.Blackboard, typeof(BlackboardInspector), ref blackboardEditor);
-                        if (null != blackboardEditor)
+                        for (int i = 0; i < Script.ValuesCount; ++i)
                         {
-                            using (var blackboardVerticalScope = new EditorGUILayout.VerticalScope())
+                            using (var horizontalScope = new EditorGUILayout.HorizontalScope())
                             {
-                                blackboardEditor.DrawHeader();
-                                blackboardEditor.OnInspectorGUI();
+                                TryDrawEditor(Script.GetValueByIndex(i), cachedBlackboardValueEditorByObject);
+                                if(GUILayout.Button("-"))
+                                {
+                                    if(EditorUtility.DisplayDialog("Warnning", "Are you sure?", "OK", "NO"))
+                                    {
+                                        Script.RemoveValueByIndex(i);
+                                        return;
+                                    }
+                                }
                             }
+                            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                         }
+                    }
+                    if (GUILayout.Button("Add Integer"))
+                    {
+                        AddBlackboardValue<StateMachineValueInt>();
+                    }
+
+                    if (GUILayout.Button("Add Float"))
+                    {
+                        AddBlackboardValue<StateMachineValueFloat>();
+                    }
+
+                    if (GUILayout.Button("Add Bool"))
+                    {
+                        AddBlackboardValue<StateMachineValueBool>();
+                    }
+
+                    if (GUILayout.Button("Add String"))
+                    {
+                        AddBlackboardValue<StateMachineValueString>();
+                    }
+
+                    if (GUILayout.Button("Add Vector3"))
+                    {
+                        AddBlackboardValue<StateMachineValueVector3>();
                     }
                 }
 
                 EditorGUILayout.Space(sectionSpaceHeight);
             }
+        }
+
+        void TryDrawEditor<T>(T key, IDictionary<T, UnityEditor.Editor> dictionary) where T : UnityEngine.Object
+        {
+            UnityEditor.Editor found = null;
+            if (dictionary.TryGetValue(key, out found))
+            {
+                dictionary[key] = found;
+            }
+            CreateCachedEditor(key, null, ref found);
+            dictionary[key] = found;
+
+            found.OnInspectorGUI();
+        }
+
+        private void DrawSectionTitle(string titleLabel)
+        {
+            EditorGUILayout.Space(sectionSpaceHeight);
+            EditorGUILayout.LabelField(titleLabel, BigCenterWhiteLabel, centerLabelHeight); ;
+            EditorGUILayout.Space(sectionSpaceHeight);
+        }
+
+        void AddBlackboardValue<T>() where T : StateMachineValue
+        {
+            var newValue = CreateInstance<T>();
+            newValue.name = "new " + typeof(T).Name;
+            Script.AddValue(newValue);
+
+            AssetDatabase.AddObjectToAsset(newValue, Script);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        void RemoveBlackboardValue(int index)
+        {
+            var oldValue = Script.GetValueByIndex(index);
+            Script.RemoveValue(oldValue);
+            AssetDatabase.RemoveObjectFromAsset(oldValue);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         void AddAsset(UnityEngine.Object newAsset)

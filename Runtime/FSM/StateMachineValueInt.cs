@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JLib.FSM
 {
-    public class BlackboardValueInt : BlackboardValueTemplate<int>
+    public class StateMachineValueInt : StateMachineValueTemplate<int>
     {
     }
 }

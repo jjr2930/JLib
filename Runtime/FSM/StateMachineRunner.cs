@@ -32,23 +32,7 @@ namespace JLib.FSM
             stateMachine.OnExit();
         }
 
-        public void PushEvent(int index)
-        {
-            var transitionCount = stateMachine.TransitionCount;
-            var eventName = stateMachine.GetTransitionEvent(index).name;
-            for (int i = 0; i < transitionCount; ++i)
-            {
-                var transition = stateMachine.GetTransition(i);
-                if(stateMachine.CurrentState == transition.from
-                    && transition.transitionEvent.name == eventName)
-                {
-                    stateMachine.CurrentState.OnExit(this);
-                    stateMachine.CurrentState = transition.to;
-                    stateMachine.CurrentState.OnEntered(this);
-                }
-            }
-        }
-
+        
         public void PushEvent(string eventName)
         {
             var transitionCount = stateMachine.TransitionCount;
@@ -67,12 +51,12 @@ namespace JLib.FSM
 
         public void SetBlackboardValue<T>(string name, T value)
         {
-            stateMachine.Blackboard.SetValue<T>(name, value);
+            stateMachine.SetValue<T>(name, value);
         }
 
         public T GetBlackboardValue<T>(string name)
         {
-            return stateMachine.Blackboard.GetValue<T>(name);
+            return stateMachine.GetValue<T>(name);
         }
 
         public int GetEventIndex(string eventName)
@@ -86,7 +70,7 @@ namespace JLib.FSM
                 }
             }
 
-            //not found exception?
+            //TODO should be throw excpetion?
             return -1;
         }
     }

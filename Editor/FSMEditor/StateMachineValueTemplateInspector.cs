@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace JLib.FSM.Editor
 {
-    public class BlackboardValueTemplateInspector : UnityEditor.Editor
+    public class StateMachineValueTemplateInspector : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             using (var verticalScope = new EditorGUILayout.VerticalScope())
             {
-                EditorGUILayout.LabelField(target.name);
+                EditorGUILayout.LabelField(target.GetType().Name.Replace("StateMachineValue", ""));
                 using (var horizontalScope = new EditorGUILayout.HorizontalScope())
                 {
                     using (var changeScope = new EditorGUI.ChangeCheckScope())

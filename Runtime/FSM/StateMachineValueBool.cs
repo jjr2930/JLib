@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace JLib.FSM
 {
-    public class BlackboardValueFloat : BlackboardValueTemplate<float>
+    public class StateMachineValueBool : StateMachineValueTemplate<bool>
     {
+        
     }
 }

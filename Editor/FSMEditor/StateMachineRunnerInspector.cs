@@ -20,6 +20,10 @@ namespace JLib.FSM.Editor
             base.OnInspectorGUI();
 
             CreateCachedEditor(Script.StateMachine, null, ref cachedEditor);
+            if(null == cachedEditor ) 
+            {
+                return;
+            }
 
             cachedEditor.DrawHeader();
             cachedEditor.OnInspectorGUI();
