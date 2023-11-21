@@ -292,6 +292,7 @@ namespace JLib.FSM.Editor
                                 CreateCachedEditor(state, null, ref cachedStateEditor);
                                 cachedStateEdtiorByObject[state] = cachedStateEditor;
                                 cachedStateEditor.DrawHeader();
+                                state.name = EditorGUILayout.TextField("name", state.name);
                                 cachedStateEditor.DrawDefaultInspector();
 
                                 if (GUILayout.Button("-"))
