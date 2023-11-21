@@ -44,9 +44,6 @@ namespace JLib.FSM.Editor
 
         UnityEditor.Editor blackboardEditor;
 
-        bool isStatesFolded;
-        bool isTransitionsFolded;
-        bool isTransitionEventFolded;
         Stack<Color> colorStack = null;
 
         public StateMachine Script
@@ -120,13 +117,13 @@ namespace JLib.FSM.Editor
 
                 DrawSectionTitle("Transition Events");
 
-                var buttonString = (isTransitionEventFolded) ? "Fold" : "Unfold";
+                var buttonString = (Script.IsTransitionEventFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
                 {
-                    isTransitionEventFolded = !isTransitionEventFolded;
+                    Script.IsTransitionEventFolded = !Script.IsTransitionEventFolded;
                 }
 
-                if (isTransitionEventFolded)
+                if (Script.IsTransitionEventFolded)
                 {
                     using (var verticalScope2 = new EditorGUILayout.VerticalScope())
                     {
@@ -194,13 +191,13 @@ namespace JLib.FSM.Editor
 
                 DrawSectionTitle("Transitions");
 
-                var buttonString = (isTransitionsFolded) ? "Fold" : "Unfold";
+                var buttonString = (Script.IsTransitionFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
                 {
-                    isTransitionsFolded = !isTransitionsFolded;
+                    Script.IsTransitionFolded = !Script.IsTransitionFolded;
                 }
 
-                if (isTransitionsFolded)
+                if (Script.IsTransitionFolded)
                 {
                     using (var verticalScope2 = new EditorGUILayout.VerticalScope())
                     {
@@ -269,13 +266,13 @@ namespace JLib.FSM.Editor
 
                 DrawSectionTitle("States");
 
-                var buttonString = (isStatesFolded) ? "Fold" : "Unfold";
+                var buttonString = (Script.IsStatesFolded) ? "Fold" : "Unfold";
                 if (GUILayout.Button(buttonString))
                 {
-                    isStatesFolded = !isStatesFolded;
+                    Script.IsStatesFolded = !Script.IsStatesFolded;
                 }
 
-                if (isStatesFolded)
+                if (Script.IsStatesFolded)
                 {
                     int stateCount = Script.StateCount;
                     using (var scrollScope = new EditorGUILayout.ScrollViewScope(scrollPosition))
@@ -360,13 +357,13 @@ namespace JLib.FSM.Editor
                 GUI.color = colorStack.Pop();
                 DrawSectionTitle("Blackboard");
 
-                var buttonText = (Script.IsBlackboardFolded) ? "Unfold" : "Fold";
+                var buttonText = (Script.IsValuesFolded) ? "Unfold" : "Fold";
                 if (GUILayout.Button(buttonText))
                 {
-                    Script.IsBlackboardFolded = !Script.IsBlackboardFolded;
+                    Script.IsValuesFolded = !Script.IsValuesFolded;
                 }
 
-                if (!Script.IsBlackboardFolded)
+                if (!Script.IsValuesFolded)
                 {
                     using (var valuesVerticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
                     {

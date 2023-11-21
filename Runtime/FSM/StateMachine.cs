@@ -18,8 +18,11 @@ namespace JLib.FSM
         [SerializeField, HideInInspector] List<State> states = new List<State>();
         [SerializeField, HideInInspector] List<Transition> transitions = new List<Transition>();
         [SerializeField, HideInInspector] List<TransitionEvent> transitionEvents = new List<TransitionEvent>();
-        
         [SerializeField, HideInInspector] bool isValuesFolded = false;
+        [SerializeField, HideInInspector] bool isStatesFolded = false;
+        [SerializeField, HideInInspector] bool isTransitionEventFolded = false;
+        [SerializeField, HideInInspector] bool isTransitionFolded = false;
+
 
         Dictionary<int, StateMachineValue> valueByHash = new Dictionary<int, StateMachineValue>();
         Dictionary<State, Dictionary<string, State>> transitionMap
@@ -50,15 +53,32 @@ namespace JLib.FSM
             get => stateMachineValues.Count;
         }
 
-        public bool IsBlackboardFolded 
+        public StateMachineRunner Owner
+        {
+            get;
+            set;
+        }
+
+        public bool IsValuesFolded 
         { 
             get => isValuesFolded; 
             set => isValuesFolded = value; 
         }
-        public StateMachineRunner Owner 
+        public bool IsStatesFolded 
+        { 
+            get => isStatesFolded; 
+            set => isStatesFolded = value; 
+        }
+
+        public bool IsTransitionEventFolded 
         {
-            get; 
-            set; 
+            get => isTransitionEventFolded; 
+            set => isTransitionEventFolded = value;
+        }
+        public bool IsTransitionFolded
+        {
+            get => isTransitionFolded;
+            set => isTransitionFolded = value;
         }
 
         #region UNITY EVENT METHODS
