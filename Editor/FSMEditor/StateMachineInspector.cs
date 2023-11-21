@@ -88,7 +88,7 @@ namespace JLib.FSM.Editor
         {
             base.OnInspectorGUI();
 
-            //using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+            using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
                 DrawBlackbaord();
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -100,6 +100,13 @@ namespace JLib.FSM.Editor
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
                 DrawTransitions();
+
+                if(changeScope.changed)
+                {
+                    EditorUtility.SetDirty(target);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                }
             }
         }
 
@@ -292,6 +299,7 @@ namespace JLib.FSM.Editor
                                 CreateCachedEditor(state, null, ref cachedStateEditor);
                                 cachedStateEdtiorByObject[state] = cachedStateEditor;
                                 cachedStateEditor.DrawHeader();
+
                                 state.name = EditorGUILayout.TextField("name", state.name);
                                 cachedStateEditor.DrawDefaultInspector();
 
