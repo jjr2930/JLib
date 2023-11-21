@@ -114,6 +114,10 @@ namespace JLib.FSM.Editor
                 index = EditorGUILayout.Popup(index, names);
                 state = Script.StateMachine.GetState(index);
             }
+            else
+            {
+                EditorGUILayout.LabelField("Has no state");
+            }
         }
 
         int GetStateIndex(State state,  string[] stateNames)
