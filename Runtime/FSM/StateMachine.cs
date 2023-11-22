@@ -160,14 +160,18 @@ namespace JLib.FSM
         }
 
         public void SetValue<T>(string name, T value)
+             where T : ISettable<T>
         {
             foreach (var stateMachineValue in this.stateMachineValues) 
             { 
                 if(stateMachineValue.name == name)
                 {
                     var convertedValue = stateMachineValue as ISettable<T>;
-                    if(null == convertedValue)
-                        convertedValue.SetValue(value);
+
+                    if (null == convertedValue)
+                        throw new InvalidOperationException($"value({name}) is not isettable");
+                    
+                    convertedValue.SetValue(value);
                     return;
                 }
             }
