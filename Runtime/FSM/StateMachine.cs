@@ -165,7 +165,9 @@ namespace JLib.FSM
             { 
                 if(stateMachineValue.name == name)
                 {
-                    (stateMachineValue as ISettable<T>).SetValue(value);
+                    var convertedValue = stateMachineValue as ISettable<T>;
+                    if(null == convertedValue)
+                        convertedValue.SetValue(value);
                     return;
                 }
             }
