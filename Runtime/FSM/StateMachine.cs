@@ -160,7 +160,6 @@ namespace JLib.FSM
         }
 
         public void SetValue<T>(string name, T value)
-             where T : ISettable<T>
         {
             foreach (var stateMachineValue in this.stateMachineValues) 
             { 
