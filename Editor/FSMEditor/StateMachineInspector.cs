@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using System.Runtime.InteropServices;
 using UnityEngine.AI;
 using System.Net.Http.Headers;
+using JetBrains.Annotations;
 
 namespace JLib.FSM.Editor
 {
@@ -24,7 +25,7 @@ namespace JLib.FSM.Editor
         Dictionary<TransitionEvent, UnityEditor.Editor> cachedTransitionEventEditorByObject
             = new Dictionary<TransitionEvent, UnityEditor.Editor>();
 
-        Dictionary<StateMachineValue, UnityEditor.Editor> cachedBlackboardValueEditorByObject
+        Dictionary<StateMachineValue, UnityEditor.Editor> cachedValueEditorByObject
             = new Dictionary<StateMachineValue, UnityEditor.Editor>();
 
         GUIStyle BigCenterWhiteLabel
@@ -87,7 +88,7 @@ namespace JLib.FSM.Editor
 
             using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
-                DrawBlackbaord();
+                DrawValues();
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
                 DrawStates();
@@ -348,14 +349,14 @@ namespace JLib.FSM.Editor
             RemoveAsset(oldState);
         }
 
-        private void DrawBlackbaord()
+        private void DrawValues()
         {
             colorStack.Push(GUI.color);
             GUI.color = Color.red;
             using (var verticalScope = new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 GUI.color = colorStack.Pop();
-                DrawSectionTitle("Blackboard");
+                DrawSectionTitle("Values");
 
                 var buttonText = (Script.IsValuesFolded) ? "Unfold" : "Fold";
                 if (GUILayout.Button(buttonText))
@@ -371,7 +372,7 @@ namespace JLib.FSM.Editor
                         {
                             using (var horizontalScope = new EditorGUILayout.HorizontalScope())
                             {
-                                TryDrawEditor(Script.GetValueByIndex(i), cachedBlackboardValueEditorByObject);
+                                TryDrawEditor(Script.GetValueByIndex(i), cachedValueEditorByObject);
                                 if(GUILayout.Button("-"))
                                 {
                                     if(EditorUtility.DisplayDialog("Warnning", "Are you sure?", "OK", "NO"))
@@ -384,29 +385,15 @@ namespace JLib.FSM.Editor
                             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                         }
                     }
-                    if (GUILayout.Button("Add Integer"))
-                    {
-                        AddBlackboardValue<StateMachineValueInt>();
-                    }
 
-                    if (GUILayout.Button("Add Float"))
+                    if(GUILayout.Button("Add Value"))
                     {
-                        AddBlackboardValue<StateMachineValueFloat>();
-                    }
-
-                    if (GUILayout.Button("Add Bool"))
-                    {
-                        AddBlackboardValue<StateMachineValueBool>();
-                    }
-
-                    if (GUILayout.Button("Add String"))
-                    {
-                        AddBlackboardValue<StateMachineValueString>();
-                    }
-
-                    if (GUILayout.Button("Add Vector3"))
-                    {
-                        AddBlackboardValue<StateMachineValueVector3>();
+                        var mousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+                        ValueSelectionPopup.OpenWindow((int)mousePosition.x, (int)mousePosition.y, 400, 500,
+                            (selectedType) =>
+                            {
+                                AddBlackboardValue(selectedType);
+                            });
                     }
                 }
 
@@ -434,16 +421,14 @@ namespace JLib.FSM.Editor
             EditorGUILayout.Space(sectionSpaceHeight);
         }
 
-        void AddBlackboardValue<T>() where T : StateMachineValue
+        void AddBlackboardValue(Type valueType) 
         {
-            var newValue = CreateInstance<T>();
-            newValue.name = "new " + typeof(T).Name;
+            var newValue = ScriptableObject.CreateInstance(valueType) as StateMachineValue;
+            newValue.name = "new " + valueType.ToString();
             Script.AddValue(newValue);
+            cachedValueEditorByObject.Add(newValue, null);
 
-            AssetDatabase.AddObjectToAsset(newValue, Script);
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AddAsset(newValue);
         }
 
         void RemoveBlackboardValue(int index)
