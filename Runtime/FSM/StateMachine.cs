@@ -210,9 +210,7 @@ namespace JLib.FSM
 
         public void OnEntered() 
         {
-            if (null == CurrentState)
-                CurrentState = rootState;
-
+            CurrentState = rootState;
             CurrentState.OnEntered(Owner);
         }
         public void OnUpdate()
