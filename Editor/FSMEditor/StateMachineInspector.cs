@@ -88,6 +88,10 @@ namespace JLib.FSM.Editor
 
             using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
+                string currentStatenName = (null == Script.CurrentState) ? "" : Script.CurrentState.ToString();
+                GUILayout.Label("current State : " + currentStatenName);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
                 DrawValues();
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
