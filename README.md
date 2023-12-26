@@ -29,4 +29,4 @@ class diagram
 <img src = "https://github.com/jjr2930/JLib/blob/master/Documentation~/ObjectPool%20%ED%81%B4%EB%9E%98%EC%8A%A4%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png?raw=true"/>
 
 ## Simple State Machine
-<img Width=400 height=550 src = "https://github.com/jjr2930/JLib/blob/master/Documentation~/StateMachine%20Inspector.png?raw=true"/>
+<img Width=400 height=750 src = "https://github.com/jjr2930/JLib/blob/master/Documentation~/StateMachine%20Inspector.png?raw=true"/>
