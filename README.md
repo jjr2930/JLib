@@ -1,5 +1,7 @@
 # JLib 자주 사용하는 기능들을 구현해놓음
 ## 설치
+Unity 2023.3.4f1에서 작동 확인됨
+
 <img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step1.png"/>
 <img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step2.png"/>
 <img src="https://github.com/jjr2930/JLib/blob/master/Documentation~/how%20to%20install%20step3.png"/>
