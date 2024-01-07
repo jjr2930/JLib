@@ -9,7 +9,6 @@
   "changelogUrl": "",
   "licensesUrl": "",
   "dependencies": {
-    "com.unity.textmeshpro": "3.0.6",
     "com.unity.addressables": "1.21.14"
   },
   "author": {
