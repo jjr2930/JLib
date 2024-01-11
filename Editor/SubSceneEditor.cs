@@ -25,7 +25,6 @@ namespace JLib.Editor
                     if(null != Script.Scene)
                     {
                         Script.ScenePath = AssetDatabase.GetAssetPath(Script.Scene);
-                        Script.SceneGuid = AssetDatabase.GUIDFromAssetPath(Script.ScenePath);
                         Script.SceneName = Script.Scene.name;
                     }
                 }
