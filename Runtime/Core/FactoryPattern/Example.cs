@@ -2,11 +2,7 @@
  * 이 파일은 Factory의 사용법에 대한 내용이 담겨 있는 코드이다.
  */
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace JLib.Core.FactoryMethodPattern
 {
