@@ -17,7 +17,19 @@ namespace JLib.Editor
         }
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            using(var changeScope = new EditorGUI.ChangeCheckScope())
+            {
+                base.OnInspectorGUI();
+                if (changeScope.changed)
+                {
+                    if(null != Script.Scene)
+                    {
+                        Script.ScenePath = AssetDatabase.GetAssetPath(Script.Scene);
+                        Script.SceneGuid = AssetDatabase.GUIDFromAssetPath(Script.ScenePath);
+                        Script.SceneName = Script.Scene.name;
+                    }
+                }
+            }
             if(GUILayout.Button("Load"))
             {
                 var path = AssetDatabase.GetAssetPath(Script.Scene);
