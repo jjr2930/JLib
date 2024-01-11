@@ -49,12 +49,12 @@ namespace JLib.FSM
             }
         }
 
-        public void SetBlackboardValue<T>(string name, T value)
+        public void SetStateMachineValue<T>(string name, T value)
         {
             stateMachine.SetValue<T>(name, value);
         }
 
-        public T GetBlackboardValue<T>(string name)
+        public T GetStateMachineValue<T>(string name)
         {
             return stateMachine.GetValue<T>(name);
         }
