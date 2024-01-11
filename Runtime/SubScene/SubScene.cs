@@ -22,12 +22,12 @@ namespace JLib
             if (string.IsNullOrEmpty(sceneName))
                 return;
 
-            SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive).completed += 
+            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += 
                 (operation)=>
                 {
                     operation.allowSceneActivation = true;
                     var loadedScene = SceneManager.GetSceneByName(scene.name);
-                    if (loadedScene.IsValid())
+                    if (false == loadedScene.IsValid())
                     {
                         Debug.LogError($"{scene.name} is invalid");
                         return;
