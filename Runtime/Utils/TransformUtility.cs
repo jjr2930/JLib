@@ -24,5 +24,17 @@ namespace JLib
          
             return null;
         }
+
+        public static bool TryFindByName(Transform parent, string name, ref Transform result)
+        {
+            var found = FindByName(parent, name);
+            if (null != found)
+            {
+                result = found;
+                return true;
+            }
+
+            return false;
+        }
     }
 }
