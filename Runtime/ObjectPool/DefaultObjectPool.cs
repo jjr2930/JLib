@@ -8,7 +8,8 @@ namespace JLib.ObjectPool
     /// <summary>
     /// Addressables를 사용하지 않는 오브젝트 풀
     /// </summary>
-    public class DefaultObjectPool<KeyT> : PoolBase<KeyT, GameObject, DefaultPoolObject<KeyT>, DefaultObjectPool<KeyT>>
+    public class DefaultObjectPool<KeyT, ConcretePoolT> : PoolBase<KeyT, GameObject, DefaultPoolObject<KeyT>, ConcretePoolT>
+        where ConcretePoolT : PoolBase<KeyT, GameObject, DefaultPoolObject<KeyT>, ConcretePoolT>
     {
         protected override DefaultPoolObject<KeyT> CreateInstance(GameObject poolObject)
         {

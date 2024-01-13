@@ -10,7 +10,8 @@ namespace JLib.ObjectPool.Addressables
     /// <summary>
     /// Object pool using addressables
     /// </summary>
-    public class DefaultObjectPoolWithAddressables<KeyT> : PoolBase<KeyT, AssetReference, DefaultPoolObject<KeyT>, DefaultObjectPoolWithAddressables<KeyT>>
+    public class DefaultObjectPoolWithAddressables<KeyT, ConcretePoolT> : PoolBase<KeyT, AssetReference, DefaultPoolObject<KeyT>, ConcretePoolT>
+        where ConcretePoolT : PoolBase<KeyT, AssetReference, DefaultPoolObject<KeyT>, ConcretePoolT>
     {
         protected override void DoPoped(DefaultPoolObject<KeyT> popedObject)
         {
