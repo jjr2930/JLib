@@ -25,8 +25,9 @@ namespace JLib
             var loadedScene = SceneManager.GetSceneByName(sceneName);
             if (loadedScene.IsValid())
             {
-                if (loadedScene.isLoaded)
-                    return;
+                return;
+                //if (loadedScene.isLoaded)
+                //    return;
             }
 
             SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += 
