@@ -222,6 +222,8 @@ namespace JLib.FSM
 
         public void OnEntered() 
         {
+            CopyValueToRuntimeValue();
+
             CurrentState = rootState;
             CurrentState.OnEntered(Owner);
         }
