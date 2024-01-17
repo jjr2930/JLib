@@ -8,6 +8,5 @@ namespace JLib.FSM
     [Serializable]
     public class StateMachineValue : ScriptableObject
     {
-        public virtual void CopyValueToRuntimeValue() { }
     }
 }

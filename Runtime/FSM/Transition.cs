@@ -13,6 +13,10 @@ namespace JLib.FSM
         public State to;
         public TransitionEvent transitionEvent;
 
-        public StateMachine StateMachine { get => stateMachine; set => stateMachine = value; }
+        public StateMachine StateMachine 
+        { 
+            get => stateMachine; 
+            set => stateMachine = value; 
+        }
     }
 }

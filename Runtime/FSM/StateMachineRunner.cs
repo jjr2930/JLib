@@ -19,6 +19,7 @@ namespace JLib.FSM
         private void Start()
         {
             //copy value to runtimeValue
+            stateMachine = stateMachine.GetClone();
             stateMachine.Owner = this;
             stateMachine.OnEntered();            
         }

@@ -81,6 +81,54 @@ namespace JLib.FSM
             set => isTransitionFolded = value;
         }
 
+        public StateMachine GetClone()
+        {
+            Dictionary<State, State> copiedStateMap = new Dictionary<State, State>(16);
+            var copiedMachine = Instantiate(this);
+            //copy states
+            for (int i = 0; i < copiedMachine.states.Count; ++i)
+            {
+                bool isRoot = copiedMachine.rootState == copiedMachine.states[i];
+                State copiedState = Instantiate(copiedMachine.states[i]);
+                RemoveClonePostfix(copiedState);
+                if (isRoot)
+                {
+                    copiedMachine.rootState = copiedState;
+                }
+
+                copiedMachine.states[i] = copiedState;
+                copiedStateMap[this.states[i]] = copiedState;
+            }
+            //copy values
+            for (int i = 0;i < copiedMachine.stateMachineValues.Count; ++i)
+            {
+                var copiedValue = Instantiate(copiedMachine.stateMachineValues[i]);
+                RemoveClonePostfix(copiedValue);
+                copiedMachine.stateMachineValues[i] = copiedValue;
+            }
+            //copy transitions
+            for(int i = 0; i< copiedMachine.transitions.Count; ++i)
+            {
+                var copiedTransition = Instantiate(copiedMachine.transitions[i]);
+                RemoveClonePostfix(copiedTransition);
+                copiedTransition.from = copiedStateMap[this.transitions[i].from];
+                copiedTransition.to = copiedStateMap[this.transitions[i].to];
+                copiedTransition.StateMachine = copiedMachine;
+                copiedMachine.transitions[i] = copiedTransition;
+            }
+            //copy event
+            for(int i =0; i< copiedMachine.transitionEvents.Count; ++i)
+            {
+                var copiedTransitionEvent = Instantiate(copiedMachine.transitionEvents[i]);
+                RemoveClonePostfix(copiedTransitionEvent);
+                copiedMachine.transitionEvents[i] = copiedTransitionEvent;
+                
+            }
+
+            return copiedMachine;
+        }
+
+
         #region UNITY EVENT METHODS
         private void OnEnable()
         {
@@ -211,19 +259,8 @@ namespace JLib.FSM
             return stateMachineValues[index];
         }
 
-//        public void SetTransitionEvent(")
-        public void CopyValueToRuntimeValue()
-        {
-            foreach (var value in stateMachineValues)
-            {
-                value.CopyValueToRuntimeValue();
-            }
-        }
-
         public void OnEntered() 
         {
-            CopyValueToRuntimeValue();
-
             CurrentState = rootState;
             CurrentState.OnEntered(Owner);
         }
@@ -234,6 +271,11 @@ namespace JLib.FSM
         public void OnExit() 
         {
             CurrentState.OnExit(Owner);
+        }
+
+        public void RemoveClonePostfix(UnityEngine.Object obj)
+        {
+            obj.name = obj.name.Replace("(Clone)", "");
         }
     }
 }
