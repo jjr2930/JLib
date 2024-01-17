@@ -212,6 +212,13 @@ namespace JLib.FSM
         }
 
 //        public void SetTransitionEvent(")
+        public void CopyValueToRuntimeValue()
+        {
+            foreach (var value in stateMachineValues)
+            {
+                value.CopyValueToRuntimeValue();
+            }
+        }
 
         public void OnEntered() 
         {
