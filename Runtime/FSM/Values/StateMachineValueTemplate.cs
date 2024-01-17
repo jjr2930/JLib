@@ -27,7 +27,7 @@ namespace JLib.FSM
                 return this.value;
         }
 
-        protected override void CopyValueToRuntimeValue()
+        public override void CopyValueToRuntimeValue()
         {
             base.CopyValueToRuntimeValue();
             runtimeValue = value;
