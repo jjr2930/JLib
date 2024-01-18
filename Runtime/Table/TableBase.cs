@@ -7,9 +7,9 @@ namespace JLib
     public class TableBase<KeyT,SchemeT> : ScriptableObject
         where SchemeT : TableSchemeBase<KeyT>
     {
-        [SerializeField] List<SchemeT> data = new List<SchemeT>();
+        [SerializeField] protected List<SchemeT> data = new List<SchemeT>();
         
-        Dictionary<KeyT, SchemeT> datumByKey;
+        protected Dictionary<KeyT, SchemeT> datumByKey;
 
         public SchemeT this[KeyT key]
         {
@@ -41,6 +41,11 @@ namespace JLib
             {
                 datumByKey.Add(data[i].key, data[i]);
             }
+        }
+
+        public SchemeT GetOne(int index)
+        {
+            return data[index];
         }
     }
 }
