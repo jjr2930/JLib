@@ -33,6 +33,10 @@ namespace JLib.Editor
             {
                 pathCollection = JsonUtility.FromJson<PathCollection>(favoritesJson);
             }
+            else
+            {
+                pathCollection = new PathCollection();
+            }
         }
 
         public void OnGUI()
